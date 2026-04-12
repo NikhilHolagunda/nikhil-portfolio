@@ -1698,6 +1698,9 @@ export default function Portfolio() {
                       border: `1px solid ${C.border}`,
                       cursor: "pointer",
                       transition: "border-color .2s",
+                      flex: "1 1 0",
+                      minWidth: 0,
+                      textAlign: "center",
                     }}
                     onMouseEnter={(e) =>
                       (e.currentTarget.style.borderColor = C.borderLight)
