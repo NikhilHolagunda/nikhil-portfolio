@@ -456,14 +456,6 @@ export default function Portfolio() {
         }}
       >
         <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: `linear-gradient(to right, ${C.bg} 35%, transparent 65%), linear-gradient(to top, ${C.bg} 15%, transparent 50%)`,
-            zIndex: 1,
-          }}
-        />
-        <div
           className="hero-bg-right"
           style={{
             position: "absolute",
@@ -471,10 +463,8 @@ export default function Portfolio() {
             right: 0,
             width: "55%",
             height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
             overflow: "hidden",
+            zIndex: 0,
           }}
         >
           <img
@@ -488,6 +478,14 @@ export default function Portfolio() {
             }}
           />
         </div>
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: `linear-gradient(to right, ${C.bg} 30%, rgba(20,20,20,0.6) 60%, rgba(20,20,20,0.3) 100%), linear-gradient(to top, ${C.bg} 10%, transparent 40%)`,
+            zIndex: 1,
+          }}
+        />
 
         <div
           className="hero-content section-pad"
