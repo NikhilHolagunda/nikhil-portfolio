@@ -1375,8 +1375,8 @@ export default function Portfolio() {
             { l: "AVAILABILITY", v: "Immediate", s: "Ready to start" },
             {
               l: "AUTHORIZATION",
-              v: "Canadian",
-              s: "No sponsorship",
+              v: "Open Work Permit",
+              s: "Authorized to work",
             },
           ].map((f, i) => (
             <FadeIn key={i} delay={i * 0.06}>
