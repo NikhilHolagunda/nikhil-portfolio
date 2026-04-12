@@ -461,28 +461,45 @@ export default function Portfolio() {
             position: "absolute",
             top: 0,
             right: 0,
-            width: "55%",
+            width: "50%",
             height: "100%",
             overflow: "hidden",
             zIndex: 0,
           }}
         >
+          {/* Dark background to kill the gray */}
+          <div style={{ position: "absolute", inset: 0, background: C.bg, zIndex: 0 }} />
           <img
             src="/avatar.png"
             alt="Nikhil Holagunda"
             style={{
+              position: "relative",
+              zIndex: 1,
               width: "100%",
               height: "100%",
               objectFit: "contain",
               objectPosition: "center bottom",
+              filter: "brightness(0.85) contrast(1.1)",
+              mixBlendMode: "luminosity",
             }}
           />
+          {/* Overlay to blend avatar into dark theme */}
+          <div style={{
+            position: "absolute",
+            inset: 0,
+            zIndex: 2,
+            background: `
+              linear-gradient(to right, ${C.bg} 0%, transparent 25%, transparent 75%, ${C.bg} 100%),
+              linear-gradient(to bottom, ${C.bg} 0%, transparent 15%, transparent 80%, ${C.bg} 100%)
+            `,
+          }} />
         </div>
+        {/* Left text overlay gradient */}
         <div
           style={{
             position: "absolute",
             inset: 0,
-            background: `linear-gradient(to right, ${C.bg} 30%, rgba(20,20,20,0.6) 60%, rgba(20,20,20,0.3) 100%), linear-gradient(to top, ${C.bg} 10%, transparent 40%)`,
+            background: `linear-gradient(to right, ${C.bg} 35%, rgba(20,20,20,0.7) 55%, transparent 75%), linear-gradient(to top, ${C.bg} 12%, transparent 40%)`,
             zIndex: 1,
           }}
         />
