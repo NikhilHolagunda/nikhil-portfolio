@@ -468,13 +468,13 @@ export default function Portfolio() {
           }}
         >
           <img
-            src="/hero.png"
+            src="/avatar.png"
             alt="Nikhil Holagunda"
             style={{
               width: "100%",
               height: "100%",
-              objectFit: "cover",
-              objectPosition: "top center",
+              objectFit: "contain",
+              objectPosition: "center bottom",
             }}
           />
         </div>
@@ -851,6 +851,7 @@ export default function Portfolio() {
                 height: 140,
                 borderRadius: "50%",
                 objectFit: "cover",
+                objectPosition: "center 20%",
                 border: `3px solid ${C.red}`,
                 flexShrink: 0,
               }}
