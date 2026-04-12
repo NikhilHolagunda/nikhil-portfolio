@@ -477,35 +477,16 @@ export default function Portfolio() {
             overflow: "hidden",
           }}
         >
-          <div
+          <img
+            src="/hero.png"
+            alt="Nikhil Holagunda"
             style={{
               width: "100%",
               height: "100%",
-              background: `linear-gradient(135deg, #1a1a2e 0%, #16213e 30%, #0f3460 60%, #1a1a2e 100%)`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              objectFit: "cover",
+              objectPosition: "top center",
             }}
-          >
-            <div
-              style={{
-                width: 280,
-                height: 280,
-                borderRadius: "50%",
-                background: `linear-gradient(135deg, ${C.red}33, #1a1a2e, ${C.red}22)`,
-                border: `3px solid ${C.red}44`,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 120,
-                fontFamily: "'Bebas Neue'",
-                color: C.red,
-                opacity: 0.4,
-              }}
-            >
-              NH
-            </div>
-          </div>
+          />
         </div>
 
         <div
@@ -863,6 +844,23 @@ export default function Portfolio() {
           >
             THE JOURNEY
           </h2>
+          <div style={{ display: "flex", alignItems: "center", gap: 32, marginBottom: 8 }}>
+            <img
+              src="/headshot.png"
+              alt="Nikhil Holagunda"
+              style={{
+                width: 140,
+                height: 140,
+                borderRadius: "50%",
+                objectFit: "cover",
+                border: `3px solid ${C.red}`,
+                flexShrink: 0,
+              }}
+            />
+            <p style={{ fontSize: 16, color: C.textMuted, lineHeight: 1.7, maxWidth: 480 }}>
+              Engineer by training, founder by choice. I build systems that scale and products that ship — from enterprise banking APIs to AI-powered marketing platforms.
+            </p>
+          </div>
         </FadeIn>
 
         <div
