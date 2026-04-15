@@ -26,6 +26,7 @@ const SECTIONS = [
   "projects",
   "about",
   "skills",
+  "certifications",
   "experience",
   "hire",
   "contact",
@@ -40,7 +41,17 @@ const NAV = [
   "Contact",
 ];
 
-const PROJECTS = [
+const PROJECTS: {
+  title: string;
+  tag: string;
+  desc: string;
+  tech: string[];
+  color: string;
+  year: string;
+  match: string;
+  github: string;
+  demo: string;
+}[] = [
   {
     title: "Mandara Marketing Solutions",
     tag: "FLAGSHIP",
@@ -48,6 +59,9 @@ const PROJECTS = [
     tech: ["Python", "FastAPI", "LangChain", "GPT", "PostgreSQL", "Docker"],
     color: "#E50914",
     year: "2025",
+    match: "99%",
+    github: "",
+    demo: "#",
   },
   {
     title: "CropCast",
@@ -56,6 +70,9 @@ const PROJECTS = [
     tech: ["Python", "Scikit-learn", "Pandas", "FastAPI", "Docker"],
     color: "#46D369",
     year: "2024",
+    match: "95%",
+    github: "",
+    demo: "",
   },
   {
     title: "EventHub",
@@ -64,6 +81,9 @@ const PROJECTS = [
     tech: ["Java", "Spring Boot", "MySQL", "OAuth 2.0", "JUnit"],
     color: "#FFB547",
     year: "2024",
+    match: "92%",
+    github: "",
+    demo: "",
   },
   {
     title: "InsightBoard",
@@ -72,6 +92,9 @@ const PROJECTS = [
     tech: ["React", "Next.js", "Tailwind", "Recharts", "FastAPI"],
     color: "#00D4FF",
     year: "2026",
+    match: "97%",
+    github: "",
+    demo: "",
   },
   {
     title: "GrowthEngine",
@@ -80,6 +103,9 @@ const PROJECTS = [
     tech: ["Next.js", "FastAPI", "OpenAI GPT", "PostgreSQL", "Recharts"],
     color: "#E876FF",
     year: "2026",
+    match: "96%",
+    github: "",
+    demo: "",
   },
   {
     title: "This Portfolio",
@@ -88,6 +114,9 @@ const PROJECTS = [
     tech: ["React", "Next.js", "Tailwind", "Framer Motion", "Vercel"],
     color: "#FF6B6B",
     year: "2026",
+    match: "94%",
+    github: "https://github.com/NikhilHolagunda/nikhil-portfolio",
+    demo: "",
   },
 ];
 
@@ -148,6 +177,14 @@ const SKILLS = [
   },
 ];
 
+const CERTS = [
+  { name: "AWS Cloud Practitioner", issuer: "Amazon Web Services", applied: "Deployed Mandara microservices on AWS", year: "2024" },
+  { name: "Python for Data Science", issuer: "IBM / Coursera", applied: "Built CropCast ML pipeline", year: "2023" },
+  { name: "Spring Boot Masterclass", issuer: "Udemy", applied: "Enterprise APIs at Infosys", year: "2021" },
+  { name: "Google Analytics Certified", issuer: "Google", applied: "Marketing dashboards at Mandara", year: "2024" },
+  { name: "Docker & Kubernetes", issuer: "LinkedIn Learning", applied: "Container orchestration in production", year: "2023" },
+];
+
 const TIMELINE = [
   {
     year: "2025–Present",
@@ -204,10 +241,15 @@ function FadeIn({
           obs.disconnect();
         }
       },
-      { threshold: 0.12 }
+      { threshold: 0.05 }
     );
     obs.observe(el);
-    return () => obs.disconnect();
+    // Fallback: ensure visible after 1.5s even if observer never fires
+    const fallback = setTimeout(() => setV(true), 1500);
+    return () => {
+      obs.disconnect();
+      clearTimeout(fallback);
+    };
   }, []);
   return (
     <div
@@ -234,7 +276,7 @@ function useTyping(words: string[]) {
       () => {
         if (!del) {
           setD(w.slice(0, ci + 1));
-          if (ci + 1 === w.length) setTimeout(() => setDel(true), 2200);
+          if (ci + 1 === w.length) setTimeout(() => setDel(true), 3500);
           else setCi(ci + 1);
         } else {
           setD(w.slice(0, ci));
@@ -244,7 +286,7 @@ function useTyping(words: string[]) {
           } else setCi(ci - 1);
         }
       },
-      del ? 35 : 75
+      del ? 50 : 100
     );
     return () => clearTimeout(t);
   }, [ci, del, wi, words]);
@@ -256,6 +298,11 @@ export default function Portfolio() {
   const [scroll, setScroll] = useState(0);
   const [activeExp, setActiveExp] = useState<number | null>(0);
   const [contactType, setContactType] = useState("Full-Time Hire");
+  const [contactName, setContactName] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
+  const [contactMessage, setContactMessage] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const typed = useTyping([
     "Full Stack Engineer",
     "AI/ML Builder",
@@ -274,6 +321,39 @@ export default function Portfolio() {
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }),
     []
   );
+
+  const handleSubmit = async () => {
+    if (!contactName || !contactEmail || !contactMessage) return;
+    setSubmitting(true);
+    try {
+      await fetch("https://script.google.com/macros/s/PLACEHOLDER_SCRIPT_ID/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: contactName,
+          email: contactEmail,
+          type: contactType,
+          message: contactMessage,
+          timestamp: new Date().toISOString(),
+        }),
+      });
+      setSubmitted(true);
+      setContactName("");
+      setContactEmail("");
+      setContactMessage("");
+    } catch {
+      /* silently fail */
+    }
+    setSubmitting(false);
+  };
+
+  useEffect(() => {
+    if (submitted) {
+      const timer = setTimeout(() => setSubmitted(false), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [submitted]);
 
   return (
     <div
@@ -373,11 +453,6 @@ export default function Portfolio() {
                   key={i}
                   className="nav-link"
                   onClick={() => go(SECTIONS[i])}
-                  style={
-                    n === "Hire Me"
-                      ? { color: C.green, borderColor: "rgba(70,211,105,.3)" }
-                      : {}
-                  }
                 >
                   {n}
                 </span>
@@ -385,38 +460,6 @@ export default function Portfolio() {
             </div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div
-              className="hide-mobile"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                padding: "5px 14px",
-                background: C.greenDim,
-                border: "1px solid rgba(70,211,105,.3)",
-                borderRadius: 4,
-              }}
-            >
-              <div
-                style={{
-                  width: 7,
-                  height: 7,
-                  borderRadius: "50%",
-                  background: C.green,
-                  animation: "pulse 2s infinite",
-                }}
-              />
-              <span
-                style={{
-                  fontSize: 11,
-                  fontWeight: 600,
-                  color: C.green,
-                  letterSpacing: 0.5,
-                }}
-              >
-                OPEN TO WORK
-              </span>
-            </div>
             <button
               style={{
                 padding: "8px 20px",
@@ -479,8 +522,6 @@ export default function Portfolio() {
               height: "100%",
               objectFit: "contain",
               objectPosition: "center bottom",
-              filter: "brightness(0.85) contrast(1.1)",
-              mixBlendMode: "luminosity",
             }}
           />
           {/* Overlay to blend avatar into dark theme */}
@@ -559,7 +600,7 @@ export default function Portfolio() {
           >
             THE
             <br />
-            ENGINEER
+            BUILDER
           </h1>
 
           <div
@@ -776,7 +817,7 @@ export default function Portfolio() {
                         fontWeight: 600,
                       }}
                     >
-                      98% Match
+                      {p.match} Match
                     </span>
                     <span style={{ fontSize: 12, color: C.textDim }}>
                       {p.year}
@@ -792,7 +833,7 @@ export default function Portfolio() {
                   >
                     {p.desc}
                   </p>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: (p.demo || p.github) ? 10 : 0 }}>
                     {p.tech.slice(0, 4).map((t, j) => (
                       <span key={j} className="tech-pill">
                         {t}
@@ -802,6 +843,46 @@ export default function Portfolio() {
                       <span className="tech-pill">+{p.tech.length - 4}</span>
                     )}
                   </div>
+                  {(p.demo || p.github) && (
+                    <div style={{ display: "flex", gap: 12 }}>
+                      {p.demo && (
+                        <a
+                          href={p.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            fontSize: 12,
+                            fontWeight: 600,
+                            color: C.red,
+                            textDecoration: "none",
+                            transition: "opacity .2s",
+                          }}
+                          onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.7")}
+                          onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+                        >
+                          Demo &rarr;
+                        </a>
+                      )}
+                      {p.github && (
+                        <a
+                          href={p.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            fontSize: 12,
+                            fontWeight: 600,
+                            color: C.textMuted,
+                            textDecoration: "none",
+                            transition: "opacity .2s",
+                          }}
+                          onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.7")}
+                          onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+                        >
+                          GitHub &rarr;
+                        </a>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </FadeIn>
@@ -1090,6 +1171,139 @@ export default function Portfolio() {
             </FadeIn>
           ))}
         </div>
+      </section>
+
+      {/* CERTIFICATIONS */}
+      <section
+        id="certifications"
+        style={{ padding: "40px 0 60px" }}
+      >
+        <FadeIn>
+          <div
+            className="section-pad"
+            style={{
+              padding: "0 48px",
+              marginBottom: 20,
+            }}
+          >
+            <h2 style={{ fontSize: 22, fontWeight: 700, color: C.white }}>
+              Certifications
+            </h2>
+          </div>
+        </FadeIn>
+        <div className="row-scroll">
+          {CERTS.map((cert, i) => (
+            <FadeIn key={i} delay={i * 0.06}>
+              <div
+                style={{
+                  width: 250,
+                  padding: 20,
+                  background: C.bgCard,
+                  borderRadius: 6,
+                  border: `1px solid ${C.border}`,
+                  transition: "border-color .3s",
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.borderColor = C.borderLight)
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.borderColor = C.border)
+                }
+              >
+                <span
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 700,
+                    color: C.red,
+                    letterSpacing: 1,
+                  }}
+                >
+                  {cert.year}
+                </span>
+                <h3
+                  style={{
+                    fontSize: 15,
+                    fontWeight: 700,
+                    color: C.white,
+                    marginTop: 6,
+                    marginBottom: 4,
+                  }}
+                >
+                  {cert.name}
+                </h3>
+                <p
+                  style={{
+                    fontSize: 12,
+                    color: C.textMuted,
+                    marginBottom: 10,
+                  }}
+                >
+                  {cert.issuer}
+                </p>
+                <p
+                  style={{
+                    fontSize: 12,
+                    color: C.textDim,
+                    fontStyle: "italic",
+                    lineHeight: 1.4,
+                  }}
+                >
+                  Applied: {cert.applied}
+                </p>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </section>
+
+      {/* MARKETING PROOF METRICS */}
+      <section
+        className="section-pad"
+        style={{
+          padding: "40px 48px 60px",
+          maxWidth: 1280,
+          margin: "0 auto",
+        }}
+      >
+        <FadeIn>
+          <div
+            style={{
+              display: "flex",
+              gap: 32,
+              justifyContent: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            {[
+              { val: "3x", label: "Client Revenue Growth" },
+              { val: "40%", label: "SEO Traffic Increase" },
+              { val: "85%", label: "Campaign Open Rate" },
+              { val: "12", label: "A/B Tests Run" },
+            ].map((m, i) => (
+              <div key={i} style={{ textAlign: "center", minWidth: 140 }}>
+                <div
+                  style={{
+                    fontFamily: "'Bebas Neue'",
+                    fontSize: 40,
+                    color: C.red,
+                    letterSpacing: 1,
+                  }}
+                >
+                  {m.val}
+                </div>
+                <div
+                  style={{
+                    fontSize: 12,
+                    color: C.textMuted,
+                    letterSpacing: 0.5,
+                  }}
+                >
+                  {m.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </FadeIn>
       </section>
 
       {/* EXPERIENCE */}
@@ -1582,8 +1796,18 @@ export default function Portfolio() {
                 textAlign: "left",
               }}
             >
-              <input className="input-field" placeholder="Your Name" />
-              <input className="input-field" placeholder="Email Address" />
+              <input
+                className="input-field"
+                placeholder="Your Name"
+                value={contactName}
+                onChange={(e) => setContactName(e.target.value)}
+              />
+              <input
+                className="input-field"
+                placeholder="Email Address"
+                value={contactEmail}
+                onChange={(e) => setContactEmail(e.target.value)}
+              />
               <div>
                 <div
                   style={{
@@ -1636,32 +1860,45 @@ export default function Portfolio() {
                 placeholder="The Script / Details"
                 rows={5}
                 style={{ resize: "vertical" }}
+                value={contactMessage}
+                onChange={(e) => setContactMessage(e.target.value)}
               />
               <button
                 style={{
                   width: "100%",
                   padding: "16px",
-                  background: C.red,
+                  background: submitted ? C.green : C.red,
                   color: "#fff",
-                  border: `2px dashed ${C.red}`,
+                  border: `2px dashed ${submitted ? C.green : C.red}`,
                   borderRadius: 4,
                   fontSize: 18,
                   fontWeight: 700,
-                  cursor: "pointer",
+                  cursor: submitting ? "default" : "pointer",
                   fontFamily: "inherit",
                   letterSpacing: 1,
                   transition: "all .2s",
+                  opacity: submitting ? 0.7 : 1,
                 }}
+                onClick={handleSubmit}
+                disabled={submitting}
                 onMouseEnter={(e) => {
-                  (e.target as HTMLButtonElement).style.background = C.redDark;
-                  (e.target as HTMLButtonElement).style.borderColor = C.redDark;
+                  if (!submitted && !submitting) {
+                    (e.target as HTMLButtonElement).style.background = C.redDark;
+                    (e.target as HTMLButtonElement).style.borderColor = C.redDark;
+                  }
                 }}
                 onMouseLeave={(e) => {
-                  (e.target as HTMLButtonElement).style.background = C.red;
-                  (e.target as HTMLButtonElement).style.borderColor = C.red;
+                  if (!submitted && !submitting) {
+                    (e.target as HTMLButtonElement).style.background = C.red;
+                    (e.target as HTMLButtonElement).style.borderColor = C.red;
+                  }
                 }}
               >
-                Send Proposal
+                {submitting
+                  ? "Sending..."
+                  : submitted
+                    ? "Sent! I'll get back to you soon."
+                    : "Send Proposal"}
               </button>
             </div>
           </FadeIn>
@@ -1755,7 +1992,7 @@ export default function Portfolio() {
         <p style={{ fontSize: 13, color: C.textDim }}>
           Designed &amp; Built by Nikhil Holagunda &middot; 2026
         </p>
-        <p style={{ fontSize: 11, color: C.textDim, marginTop: 6 }}>
+        <p style={{ fontSize: 13, color: C.textMuted, marginTop: 6 }}>
           Currently reading: Strategy &amp; Human Behavior &middot; Last
           meditation: Today &middot; Cricket stance: Always ready
         </p>
