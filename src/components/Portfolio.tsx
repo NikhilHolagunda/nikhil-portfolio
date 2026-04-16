@@ -162,6 +162,21 @@ const SKILLS = [
     ],
   },
   {
+    title: "Data Engineering",
+    quote: "I turn raw data into decisions.",
+    items: [
+      "Apache Spark",
+      "Kafka",
+      "Airflow",
+      "Snowflake",
+      "SQL",
+      "dbt",
+      "Pandas",
+      "Data Warehousing",
+      "ETL/ELT",
+    ],
+  },
+  {
     title: "Cloud, DevOps & Ops",
     quote: "I ship it and keep it running.",
     items: [
@@ -393,6 +408,7 @@ export default function Portfolio() {
           .stats-row{gap:16px!important}
           .hire-grid{grid-template-columns:1fr 1fr!important}
           .edu-grid{grid-template-columns:1fr!important}
+          .skills-grid{grid-template-columns:1fr!important}
           .social-row{flex-wrap:wrap!important}
           .hero-content{max-width:100%!important;padding:0 16px!important}
           .hero-bg-right{display:none!important}
@@ -1099,7 +1115,7 @@ export default function Portfolio() {
         id="skills"
         className="section-pad"
         style={{
-          padding: "60px 48px 80px",
+          padding: "60px 48px 40px",
           maxWidth: 1280,
           margin: "0 auto",
         }}
@@ -1117,9 +1133,10 @@ export default function Portfolio() {
           </h2>
         </FadeIn>
         <div
+          className="skills-grid"
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gridTemplateColumns: "repeat(3, 1fr)",
             gap: 16,
           }}
         >
@@ -1176,7 +1193,7 @@ export default function Portfolio() {
       {/* CERTIFICATIONS */}
       <section
         id="certifications"
-        style={{ padding: "40px 0 60px" }}
+        style={{ padding: "20px 0 40px" }}
       >
         <FadeIn>
           <div
