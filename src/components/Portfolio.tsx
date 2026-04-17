@@ -341,9 +341,8 @@ export default function Portfolio() {
     if (!contactName || !contactEmail || !contactMessage) return;
     setSubmitting(true);
     try {
-      await fetch("https://script.google.com/macros/s/AKfycbwI-CfhmMhW1-pBZ_kzx51yGwceV1QD1yR7VCRRLntWkF7xuh0r_g8i0IRAsVX0gfvi-w/exec", {
+      const res = await fetch("/api/contact", {
         method: "POST",
-        mode: "no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: contactName,
@@ -353,6 +352,7 @@ export default function Portfolio() {
           timestamp: new Date().toISOString(),
         }),
       });
+      if (!res.ok) throw new Error("Submission failed");
       setSubmitted(true);
       setContactName("");
       setContactEmail("");
