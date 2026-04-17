@@ -401,21 +401,31 @@ export default function Portfolio() {
         .input-field:focus{border-color:${C.red}}
         .input-field::placeholder{color:${C.textDim}}
         @media (max-width: 768px) {
-          .row-scroll{padding:0 16px 16px}
+          .row-scroll{padding:0 16px 16px;gap:12px}
           .hide-mobile{display:none!important}
-          .mobile-nav{flex-wrap:wrap;gap:4px!important}
+          .mobile-nav{display:none!important}
           .about-grid{grid-template-columns:1fr!important}
+          .about-intro{flex-direction:column!important;text-align:center!important;gap:16px!important}
           .stats-row{gap:16px!important}
           .hire-grid{grid-template-columns:1fr 1fr!important}
           .edu-grid{grid-template-columns:1fr!important}
           .skills-grid{grid-template-columns:1fr!important}
-          .social-row{flex-wrap:wrap!important}
+          .social-row{grid-template-columns:1fr 1fr!important}
           .hero-content{max-width:100%!important;padding:0 16px!important}
           .hero-bg-right{display:none!important}
           .section-pad{padding-left:16px!important;padding-right:16px!important}
+          .pcard{width:260px!important}
+          .contact-types{flex-direction:column!important;gap:6px!important}
+          .hero-title{font-size:52px!important}
+          .role-tags{justify-content:center!important}
         }
         @media (max-width: 480px) {
           .hire-grid{grid-template-columns:1fr!important}
+          .social-row{grid-template-columns:1fr!important}
+          .stats-row{flex-direction:column!important;align-items:center!important}
+          .hero-title{font-size:44px!important}
+          .hero-cta{flex-direction:column!important;width:100%!important}
+          .hero-cta button{width:100%!important;justify-content:center!important}
         }
       `}</style>
 
@@ -605,6 +615,7 @@ export default function Portfolio() {
           </div>
 
           <h1
+            className="hero-title"
             style={{
               fontFamily: "'Bebas Neue', sans-serif",
               fontSize: "clamp(56px, 8vw, 96px)",
@@ -670,7 +681,7 @@ export default function Portfolio() {
             </span>
           </div>
 
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+          <div className="hero-cta" style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
             <button
               style={{
                 display: "flex",
@@ -956,7 +967,7 @@ export default function Portfolio() {
           >
             THE JOURNEY
           </h2>
-          <div style={{ display: "flex", alignItems: "center", gap: 32, marginBottom: 8 }}>
+          <div className="about-intro" style={{ display: "flex", alignItems: "center", gap: 32, marginBottom: 8 }}>
             <img
               src="/headshot.png"
               alt="Nikhil Holagunda"
@@ -1675,6 +1686,7 @@ export default function Portfolio() {
             Best fit for:
           </h3>
           <div
+            className="role-tags"
             style={{
               display: "flex",
               flexWrap: "wrap",
@@ -1689,6 +1701,7 @@ export default function Portfolio() {
               "AI/ML Engineer",
               "Python Developer",
               "Java Developer",
+              "Data Engineer",
               "DevOps Engineer",
               "Technical Lead",
             ].map((r, i) => (
@@ -1838,6 +1851,7 @@ export default function Portfolio() {
                   PROJECT TYPE
                 </div>
                 <div
+                  className="contact-types"
                   style={{
                     display: "flex",
                     gap: 8,
@@ -1937,9 +1951,9 @@ export default function Portfolio() {
               <div
                 className="social-row"
                 style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: 16,
+                  display: "grid",
+                  gridTemplateColumns: "repeat(4, 1fr)",
+                  gap: 12,
                 }}
               >
                 {[
@@ -1960,15 +1974,14 @@ export default function Portfolio() {
                   <div
                     key={i}
                     style={{
-                      padding: "10px 18px",
+                      padding: "12px 14px",
                       background: C.bgCard,
                       borderRadius: 4,
                       border: `1px solid ${C.border}`,
                       cursor: "pointer",
                       transition: "border-color .2s",
-                      flex: "1 1 0",
-                      minWidth: 0,
                       textAlign: "center",
+                      overflow: "hidden",
                     }}
                     onMouseEnter={(e) =>
                       (e.currentTarget.style.borderColor = C.borderLight)
@@ -1987,7 +2000,7 @@ export default function Portfolio() {
                     >
                       {s.label}
                     </div>
-                    <div style={{ fontSize: 12, color: C.text }}>
+                    <div style={{ fontSize: 11, color: C.text, wordBreak: "break-all", lineHeight: 1.3 }}>
                       {s.val}
                     </div>
                   </div>
