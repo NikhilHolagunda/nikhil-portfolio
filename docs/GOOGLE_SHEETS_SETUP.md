@@ -79,21 +79,12 @@ function doGet(e) {
 
 ## Step 4: Update the Portfolio Code
 
-1. Open `src/components/Portfolio.tsx`
-2. Find this line (search for `PLACEHOLDER_SCRIPT_ID`):
-   ```typescript
-   await fetch("https://script.google.com/macros/s/PLACEHOLDER_SCRIPT_ID/exec", {
-   ```
-3. Replace the entire URL with your Web App URL:
-   ```typescript
-   await fetch("https://script.google.com/macros/s/AKfycbx.../exec", {
-   ```
-4. Save, commit, and push:
-   ```bash
-   git add src/components/Portfolio.tsx
-   git commit -m "Connect contact form to Google Sheets"
-   git push origin master
-   ```
+✅ **COMPLETED** — The portfolio code has been connected to the Google Apps Script.
+
+The contact form in `src/components/Portfolio.tsx` is configured to send data to:
+```
+https://script.google.com/macros/s/AKfycbwI-CfhmMhW1-pBZ_kzx51yGwceV1QD1yR7VCRRLntWkF7xuh0r_g8i0IRAsVX0gfvi-w/exec
+```
 
 ---
 

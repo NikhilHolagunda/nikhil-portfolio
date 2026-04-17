@@ -341,7 +341,7 @@ export default function Portfolio() {
     if (!contactName || !contactEmail || !contactMessage) return;
     setSubmitting(true);
     try {
-      await fetch("https://script.google.com/macros/s/PLACEHOLDER_SCRIPT_ID/exec", {
+      await fetch("https://script.google.com/macros/s/AKfycbwI-CfhmMhW1-pBZ_kzx51yGwceV1QD1yR7VCRRLntWkF7xuh0r_g8i0IRAsVX0gfvi-w/exec", {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "application/json" },
