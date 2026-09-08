@@ -540,53 +540,46 @@ export default function Portfolio() {
           paddingBottom: 80,
         }}
       >
+        {/* Full-bleed cinematic backdrop — avatar blurred + dimmed behind everything */}
         <div
           className="hero-bg-right"
           style={{
             position: "absolute",
-            top: 0,
-            right: 0,
-            width: "50%",
-            height: "100%",
+            inset: 0,
             overflow: "hidden",
             zIndex: 0,
           }}
         >
-          {/* Dark background to kill the gray */}
           <div style={{ position: "absolute", inset: 0, background: C.bg, zIndex: 0 }} />
           <img
             src="/avatar.png"
-            alt="Nikhil Holagunda"
+            alt=""
+            aria-hidden="true"
             style={{
-              position: "relative",
-              zIndex: 1,
+              position: "absolute",
+              inset: 0,
               width: "100%",
               height: "100%",
-              objectFit: "contain",
-              objectPosition: "center bottom",
+              objectFit: "cover",
+              objectPosition: "70% center",
+              filter: "blur(8px) saturate(1.1)",
+              opacity: 0.35,
+              transform: "scale(1.1)",
+              zIndex: 1,
             }}
           />
-          {/* Overlay to blend avatar into dark theme — radial vignette + strong edge fades */}
+          {/* Cinematic dark overlay — heavy on left where text sits */}
           <div style={{
             position: "absolute",
             inset: 0,
             zIndex: 2,
             background: `
-              radial-gradient(ellipse 65% 85% at 55% 55%, transparent 0%, transparent 40%, ${C.bg} 95%),
-              linear-gradient(to right, ${C.bg} 0%, transparent 40%, transparent 60%, ${C.bg} 100%),
-              linear-gradient(to bottom, ${C.bg} 0%, transparent 20%, transparent 75%, ${C.bg} 100%)
+              linear-gradient(to right, ${C.bg} 0%, rgba(20,20,20,0.85) 40%, rgba(20,20,20,0.55) 100%),
+              linear-gradient(to top, ${C.bg} 0%, transparent 45%, transparent 80%, rgba(20,20,20,0.7) 100%),
+              radial-gradient(ellipse at 30% 50%, transparent 0%, rgba(0,0,0,0.4) 100%)
             `,
           }} />
         </div>
-        {/* Left text overlay gradient */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: `linear-gradient(to right, ${C.bg} 35%, rgba(20,20,20,0.7) 55%, transparent 75%), linear-gradient(to top, ${C.bg} 12%, transparent 40%)`,
-            zIndex: 1,
-          }}
-        />
 
         <div
           className="hero-content section-pad"
