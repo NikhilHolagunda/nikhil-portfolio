@@ -193,48 +193,62 @@ const SKILLS = [
 ];
 
 const CERTS = [
+  { name: "IBM Data Analyst Professional Certificate", issuer: "IBM / NPower Canada", applied: "SQL, pandas, IBM Cognos, dashboards end-to-end", year: "2025" },
   { name: "AWS Cloud Practitioner", issuer: "Amazon Web Services", applied: "Deployed Mandara microservices on AWS", year: "2024" },
-  { name: "Python for Data Science", issuer: "IBM / Coursera", applied: "Built CropCast ML pipeline", year: "2023" },
-  { name: "Spring Boot Masterclass", issuer: "Udemy", applied: "Enterprise APIs at Infosys", year: "2021" },
   { name: "Google Analytics Certified", issuer: "Google", applied: "Marketing dashboards at Mandara", year: "2024" },
   { name: "Docker & Kubernetes", issuer: "LinkedIn Learning", applied: "Container orchestration in production", year: "2023" },
+  { name: "Python for Data Science", issuer: "IBM / Coursera", applied: "Built CropCast ML pipeline", year: "2023" },
+  { name: "Spring Boot Masterclass", issuer: "Udemy", applied: "Enterprise APIs at Infosys", year: "2021" },
 ];
 
 const TIMELINE = [
   {
-    year: "2025–Present",
-    role: "Founder & AI/ML Engineer",
-    co: "Mandara Marketing Solutions",
-    loc: "Mississauga, ON",
+    year: "Jul 2026 – Present",
+    role: "Security Engineer",
+    co: "Accenture (client: BMW)",
+    loc: "Canada",
     pts: [
-      "Built AI marketing engine with LangChain + GPT agents",
-      "50+ automated workflows in production",
-      "Containerized microservices, 99%+ uptime",
+      "Splunk administration — searches, dashboards, alerts, data-source onboarding",
+      "Incident triage and RCA via ServiceNow, owned end to end",
+      "Azure AD IAM + MFA via NetIQ / OT Advanced Authentication",
+      "VDI provisioning and M365 licensing on Omnissa Horizon",
+    ],
+  },
+  {
+    year: "Aug 2025 – Jan 2026",
+    role: "Founder",
+    co: "Mandara Marketing Solutions",
+    loc: "Brampton, ON",
+    pts: [
+      "Built AI marketing automation engine with LLMs + prompt engineering",
+      "Full-stack apps in Java Spring Boot, React, PostgreSQL",
+      "Consulted on digital transformation for growth-stage startups",
       "Full ownership: architecture → code → clients",
     ],
   },
   {
-    year: "2021–2022",
+    year: "Dec 2021 – Jul 2022",
     role: "System Engineer",
     co: "Infosys Ltd.",
     loc: "Hyderabad, India",
     pts: [
-      "REST APIs processing 10,000+ daily banking transactions",
-      "99.85% uptime, 30%+ response time improvement",
-      "12 Agile sprints, 95% on-time delivery",
+      "Java backend for an online-banking platform, tested via Postman",
+      "Internal certifications: Java, DBMS, Spring Boot, Postman, Maven",
+      "Delivered features across Agile sprints with the platform team",
     ],
   },
   {
-    year: "2021",
-    role: "Software Engineer Trainee",
+    year: "Jan 2021 – Nov 2021",
+    role: "Software Engineering Trainee",
     co: "Urjith Technologies",
     loc: "Hyderabad, India",
     pts: [
-      "Production APIs with ~95% test coverage",
-      "Gaming platform supporting 5,000+ concurrent users",
+      "Java, Spring Boot, JDBC, PostgreSQL on real client projects",
+      "Contributed to gaming platform backend and testing",
     ],
   },
 ];
+
 
 // ─── Hooks & Components ───
 function FadeIn({
@@ -319,10 +333,10 @@ export default function Portfolio() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const typed = useTyping([
-    "Full Stack Engineer",
-    "AI/ML Builder",
-    "Startup Founder",
-    "Open to Opportunities",
+    "Security Engineer @ Accenture",
+    "Building AI + data products",
+    "Open to full-time opportunities",
+    "Available for interviews",
   ]);
 
   useEffect(() => {
@@ -612,6 +626,40 @@ export default function Portfolio() {
             >
               READY TO HIRE
             </span>
+          </div>
+
+          <div
+            style={{
+              display: "inline-block",
+              padding: "10px 16px",
+              marginBottom: 20,
+              background: "rgba(70,211,105,0.08)",
+              border: `1px solid rgba(70,211,105,0.35)`,
+              borderRadius: 4,
+              maxWidth: "100%",
+            }}
+          >
+            <div
+              style={{
+                fontSize: 11,
+                fontWeight: 700,
+                color: C.green,
+                letterSpacing: 1.5,
+                marginBottom: 4,
+              }}
+            >
+              CURRENTLY SEEKING · CANADA
+            </div>
+            <div
+              style={{
+                fontSize: 14,
+                color: C.text,
+                fontWeight: 500,
+                lineHeight: 1.4,
+              }}
+            >
+              Software Engineer · Data Engineer · Full-Stack Developer · Data Analyst · Security Engineer
+            </div>
           </div>
 
           <h1
@@ -1696,14 +1744,15 @@ export default function Portfolio() {
           >
             {[
               "Software Engineer",
+              "Data Engineer",
+              "Data Analyst",
               "Full Stack Developer",
               "Backend Engineer",
-              "AI/ML Engineer",
+              "Security Engineer",
+              "Cloud Developer",
               "Python Developer",
               "Java Developer",
-              "Data Engineer",
-              "DevOps Engineer",
-              "Technical Lead",
+              "AI/ML Engineer",
             ].map((r, i) => (
               <span
                 key={i}
@@ -1725,7 +1774,9 @@ export default function Portfolio() {
 
         <FadeIn delay={0.1}>
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <button
+            <a
+              href="/Nikhil-Holagunda-Resume.pdf"
+              download="Nikhil-Holagunda-Resume.pdf"
               style={{
                 padding: "14px 32px",
                 background: C.red,
@@ -1737,16 +1788,18 @@ export default function Portfolio() {
                 cursor: "pointer",
                 fontFamily: "inherit",
                 transition: "background .2s",
+                textDecoration: "none",
+                display: "inline-block",
               }}
               onMouseEnter={(e) =>
-                ((e.target as HTMLButtonElement).style.background = C.redDark)
+                ((e.currentTarget as HTMLAnchorElement).style.background = C.redDark)
               }
               onMouseLeave={(e) =>
-                ((e.target as HTMLButtonElement).style.background = C.red)
+                ((e.currentTarget as HTMLAnchorElement).style.background = C.red)
               }
             >
               Download Resume &#11015;
-            </button>
+            </a>
             <button
               style={{
                 padding: "14px 32px",
