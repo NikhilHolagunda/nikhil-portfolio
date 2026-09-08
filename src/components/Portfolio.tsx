@@ -540,43 +540,41 @@ export default function Portfolio() {
           paddingBottom: 80,
         }}
       >
-        {/* Full-bleed cinematic backdrop — avatar blurred + dimmed behind everything */}
+        {/* Small decorative avatar — bottom-right corner, non-dominant */}
         <div
           className="hero-bg-right"
           style={{
             position: "absolute",
-            inset: 0,
+            bottom: 0,
+            right: 40,
+            width: "min(32%, 380px)",
+            height: "78%",
             overflow: "hidden",
             zIndex: 0,
+            pointerEvents: "none",
           }}
         >
-          <div style={{ position: "absolute", inset: 0, background: C.bg, zIndex: 0 }} />
           <img
             src="/avatar.png"
-            alt=""
-            aria-hidden="true"
+            alt="Nikhil Holagunda"
             style={{
               position: "absolute",
               inset: 0,
               width: "100%",
               height: "100%",
-              objectFit: "cover",
-              objectPosition: "70% center",
-              filter: "blur(8px) saturate(1.1)",
-              opacity: 0.35,
-              transform: "scale(1.1)",
+              objectFit: "contain",
+              objectPosition: "center bottom",
               zIndex: 1,
             }}
           />
-          {/* Cinematic dark overlay — heavy on left where text sits */}
+          {/* Soft radial fade to melt edges into bg */}
           <div style={{
             position: "absolute",
             inset: 0,
             zIndex: 2,
             background: `
-              linear-gradient(to right, ${C.bg} 0%, rgba(20,20,20,0.85) 40%, rgba(20,20,20,0.55) 100%),
-              linear-gradient(to top, ${C.bg} 0%, transparent 45%, transparent 80%, rgba(20,20,20,0.7) 100%),
-              radial-gradient(ellipse at 30% 50%, transparent 0%, rgba(0,0,0,0.4) 100%)
+              radial-gradient(ellipse 75% 90% at 50% 60%, transparent 0%, transparent 55%, ${C.bg} 100%),
+              linear-gradient(to bottom, ${C.bg} 0%, transparent 15%, transparent 90%, ${C.bg} 100%)
             `,
           }} />
         </div>
