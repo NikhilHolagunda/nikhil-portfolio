@@ -427,6 +427,8 @@ export default function Portfolio() {
           .social-row{grid-template-columns:1fr 1fr!important}
           .hero-content{max-width:100%!important;padding:0 16px!important}
           .hero-bg-right{display:none!important}
+          .hero-avatar-mobile{display:block!important;width:180px;height:180px;margin:0 auto 20px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,${C.red}22,${C.bgCard});border:2px solid ${C.borderLight};box-shadow:0 8px 24px rgba(229,9,20,0.15)}
+          .hero-avatar-mobile img{width:100%;height:100%;object-fit:cover;object-position:center top}
           .section-pad{padding-left:16px!important;padding-right:16px!important}
           .pcard{width:260px!important}
           .contact-types{flex-direction:column!important;gap:6px!important}
@@ -564,14 +566,15 @@ export default function Portfolio() {
               objectPosition: "center bottom",
             }}
           />
-          {/* Overlay to blend avatar into dark theme */}
+          {/* Overlay to blend avatar into dark theme — radial vignette + strong edge fades */}
           <div style={{
             position: "absolute",
             inset: 0,
             zIndex: 2,
             background: `
-              linear-gradient(to right, ${C.bg} 0%, transparent 25%, transparent 75%, ${C.bg} 100%),
-              linear-gradient(to bottom, ${C.bg} 0%, transparent 15%, transparent 80%, ${C.bg} 100%)
+              radial-gradient(ellipse 65% 85% at 55% 55%, transparent 0%, transparent 40%, ${C.bg} 95%),
+              linear-gradient(to right, ${C.bg} 0%, transparent 40%, transparent 60%, ${C.bg} 100%),
+              linear-gradient(to bottom, ${C.bg} 0%, transparent 20%, transparent 75%, ${C.bg} 100%)
             `,
           }} />
         </div>
@@ -594,6 +597,11 @@ export default function Portfolio() {
             maxWidth: 680,
           }}
         >
+          {/* Mobile-only avatar (hidden on desktop via CSS default display:none) */}
+          <div className="hero-avatar-mobile" style={{ display: "none" }}>
+            <img src="/headshot.png" alt="Nikhil Holagunda" />
+          </div>
+
           <div
             style={{
               display: "flex",
