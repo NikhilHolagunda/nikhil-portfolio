@@ -540,43 +540,57 @@ export default function Portfolio() {
           paddingBottom: 80,
         }}
       >
-        {/* Small decorative avatar — bottom-right corner, non-dominant */}
+        {/* Real headshot — Netflix show-poster styling on the right */}
         <div
           className="hero-bg-right"
           style={{
             position: "absolute",
-            bottom: 0,
-            right: 40,
-            width: "min(32%, 380px)",
-            height: "78%",
-            overflow: "hidden",
+            top: "50%",
+            right: "6%",
+            transform: "translateY(-50%)",
+            width: "min(360px, 32vw)",
+            aspectRatio: "3 / 4",
             zIndex: 0,
             pointerEvents: "none",
           }}
         >
-          <img
-            src="/avatar.png"
-            alt="Nikhil Holagunda"
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "contain",
-              objectPosition: "center bottom",
-              zIndex: 1,
-            }}
-          />
-          {/* Soft radial fade to melt edges into bg */}
+          {/* Red glow behind card */}
           <div style={{
             position: "absolute",
-            inset: 0,
-            zIndex: 2,
-            background: `
-              radial-gradient(ellipse 75% 90% at 50% 60%, transparent 0%, transparent 55%, ${C.bg} 100%),
-              linear-gradient(to bottom, ${C.bg} 0%, transparent 15%, transparent 90%, ${C.bg} 100%)
-            `,
+            inset: -20,
+            background: `radial-gradient(ellipse at center, ${C.redGlow} 0%, transparent 70%)`,
+            filter: "blur(30px)",
+            zIndex: 0,
           }} />
+          {/* Photo card */}
+          <div style={{
+            position: "relative",
+            width: "100%",
+            height: "100%",
+            borderRadius: 10,
+            overflow: "hidden",
+            border: `1px solid ${C.borderLight}`,
+            boxShadow: `0 24px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(229,9,20,0.15)`,
+            zIndex: 1,
+          }}>
+            <img
+              src="/headshot.png"
+              alt="Nikhil Holagunda"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: "center top",
+              }}
+            />
+            {/* Subtle bottom fade for cinematic depth */}
+            <div style={{
+              position: "absolute",
+              inset: 0,
+              background: `linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.35) 100%)`,
+              pointerEvents: "none",
+            }} />
+          </div>
         </div>
 
         <div
