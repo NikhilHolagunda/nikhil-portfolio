@@ -540,57 +540,38 @@ export default function Portfolio() {
           paddingBottom: 80,
         }}
       >
-        {/* Real headshot — Netflix show-poster styling on the right */}
+        {/* Typography-first hero — no side image, dramatic red accent grid */}
         <div
           className="hero-bg-right"
           style={{
             position: "absolute",
-            top: "50%",
-            right: "6%",
-            transform: "translateY(-50%)",
-            width: "min(360px, 32vw)",
-            aspectRatio: "3 / 4",
+            inset: 0,
             zIndex: 0,
             pointerEvents: "none",
+            overflow: "hidden",
           }}
         >
-          {/* Red glow behind card */}
+          {/* Massive red glow accent on the right */}
           <div style={{
             position: "absolute",
-            inset: -20,
-            background: `radial-gradient(ellipse at center, ${C.redGlow} 0%, transparent 70%)`,
-            filter: "blur(30px)",
+            top: "20%",
+            right: "-10%",
+            width: "60%",
+            height: "60%",
+            background: `radial-gradient(ellipse at center, ${C.redGlow} 0%, transparent 65%)`,
+            filter: "blur(80px)",
             zIndex: 0,
           }} />
-          {/* Photo card */}
+          {/* Subtle grid pattern */}
           <div style={{
-            position: "relative",
-            width: "100%",
-            height: "100%",
-            borderRadius: 10,
-            overflow: "hidden",
-            border: `1px solid ${C.borderLight}`,
-            boxShadow: `0 24px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(229,9,20,0.15)`,
+            position: "absolute",
+            inset: 0,
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)`,
+            backgroundSize: "60px 60px",
+            maskImage: `radial-gradient(ellipse at 70% 50%, black 0%, transparent 70%)`,
+            WebkitMaskImage: `radial-gradient(ellipse at 70% 50%, black 0%, transparent 70%)`,
             zIndex: 1,
-          }}>
-            <img
-              src="/headshot.png"
-              alt="Nikhil Holagunda"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                objectPosition: "center top",
-              }}
-            />
-            {/* Subtle bottom fade for cinematic depth */}
-            <div style={{
-              position: "absolute",
-              inset: 0,
-              background: `linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.35) 100%)`,
-              pointerEvents: "none",
-            }} />
-          </div>
+          }} />
         </div>
 
         <div
@@ -599,7 +580,7 @@ export default function Portfolio() {
             position: "relative",
             zIndex: 2,
             padding: "0 48px",
-            maxWidth: 680,
+            maxWidth: 960,
           }}
         >
           {/* Mobile-only avatar (hidden on desktop via CSS default display:none) */}
@@ -607,15 +588,39 @@ export default function Portfolio() {
             <img src="/headshot.png" alt="Nikhil Holagunda" />
           </div>
 
+          {/* Byline: small circular headshot + status */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 10,
+              gap: 14,
               marginBottom: 16,
               animation: "slideIn .6s ease",
             }}
           >
+            <div
+              className="hide-mobile"
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: "50%",
+                overflow: "hidden",
+                border: `2px solid ${C.red}`,
+                flexShrink: 0,
+                boxShadow: `0 0 20px ${C.redGlow}`,
+              }}
+            >
+              <img
+                src="/headshot.png"
+                alt="Nikhil Holagunda"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "center top",
+                }}
+              />
+            </div>
             <span
               style={{
                 background: C.red,
@@ -679,16 +684,17 @@ export default function Portfolio() {
             className="hero-title"
             style={{
               fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: "clamp(56px, 8vw, 96px)",
-              lineHeight: 0.95,
+              fontSize: "clamp(72px, 11vw, 148px)",
+              lineHeight: 0.9,
               color: C.white,
-              letterSpacing: 2,
-              marginBottom: 16,
+              letterSpacing: 3,
+              marginBottom: 20,
+              textShadow: `0 4px 40px rgba(229,9,20,0.25)`,
             }}
           >
             THE
             <br />
-            BUILDER
+            <span style={{ color: C.red }}>BUILDER</span>
           </h1>
 
           <div
