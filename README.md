@@ -1,6 +1,6 @@
 # Nikhil Portfolio
 
-A Netflix-inspired personal portfolio built with **Next.js 16**, **React 19**, **TypeScript**, and **Tailwind CSS v4**. Deployed on Vercel.
+A minimal, single-page developer portfolio built with **Next.js 16**, **React 19**, **TypeScript**, **Tailwind CSS v4**, and **shadcn/ui**. Deployed on Vercel.
 
 🌐 **Live:** https://nikhil-portfolio-plum.vercel.app
 
@@ -8,11 +8,11 @@ A Netflix-inspired personal portfolio built with **Next.js 16**, **React 19**, *
 
 ## What's inside
 
-- **Hero + About** sections with a 3D avatar and professional photos
-- **Skills grid** covering Data Engineering, Full-Stack, ML, and DevOps
-- **Projects showcase** with links to every repo and live demo
-- **Contact form** wired to Google Sheets via a Next.js API route
-- **Responsive** down to mobile (360px), with dark mode by default
+- **Sections:** Hero · About · Experience timeline · Projects · Skills · Education · Contact
+- **Dark mode by default** with a light/dark toggle (`next-themes`)
+- **Subtle entrance animations** (`framer-motion`), disabled for `prefers-reduced-motion`
+- **Contact form** posting to a Next.js API route (email via Resend, best-effort Google Sheets log)
+- **Responsive and accessible:** mobile-first layout, semantic landmarks, skip link, visible focus rings, WCAG AA colour contrast
 
 ## Tech stack
 
@@ -20,9 +20,16 @@ A Netflix-inspired personal portfolio built with **Next.js 16**, **React 19**, *
 |---|---|
 | Framework | Next.js 16 (App Router) |
 | Language | TypeScript |
-| UI | React 19, Tailwind CSS v4 |
-| Contact backend | Next.js API route → Google Sheets API (OAuth refresh-token flow) |
+| UI | React 19, Tailwind CSS v4, shadcn/ui (Radix), lucide-react |
+| Motion / theming | framer-motion, next-themes |
+| Fonts | Inter (body) + Space Grotesk (headings) via `next/font` |
+| Contact backend | Next.js API route → Resend + Google Sheets API |
 | Hosting | Vercel |
+
+## Editing content
+
+All copy lives in **`src/lib/data.ts`** and mirrors the CV. Update the CV first, then
+mirror the change there. The downloadable resume is `public/Nikhil-Holagunda-Resume.pdf`.
 
 ## Local development
 
@@ -35,15 +42,16 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ### Environment variables
 
-The contact form writes to a Google Sheet. Create a `.env.local` with:
+Create a `.env.local` with:
 
 ```
+RESEND_API_KEY=your-resend-key
 GOOGLE_CLIENT_ID=your-oauth-client-id
 GOOGLE_CLIENT_SECRET=your-oauth-client-secret
 GOOGLE_REFRESH_TOKEN=your-refresh-token
 ```
 
-Without these, `/api/contact` will 500 but the rest of the site renders fine.
+Without `RESEND_API_KEY`, `/api/contact` returns 500 but the rest of the site renders fine.
 
 ## Scripts
 
@@ -59,17 +67,23 @@ Without these, `/api/contact` will 500 but the rest of the site renders fine.
 ```
 src/
 ├── app/
-│   ├── api/contact/route.ts    # Google Sheets integration
-│   ├── layout.tsx
-│   └── page.tsx
-└── components/
-    └── Portfolio.tsx            # Main portfolio component (single-page)
-public/                          # Images, avatars, hero assets
+│   ├── api/contact/route.ts     # Contact form handler
+│   ├── globals.css              # Theme tokens (light + dark)
+│   ├── layout.tsx               # Fonts, metadata, ThemeProvider
+│   └── page.tsx                 # Section composition
+├── components/
+│   ├── sections/                # hero, about, experience, projects, skills, education, contact
+│   ├── ui/                      # shadcn/ui primitives
+│   ├── site-header.tsx          # Sticky nav + mobile menu
+│   └── …
+└── lib/
+    ├── data.ts                  # All site content (from the CV)
+    └── utils.ts
 ```
 
 ## Deploy
 
-Push to `master` — Vercel picks up the change and redeploys automatically.
+Merge to `main`. Vercel builds and deploys production automatically; every PR gets a preview deployment.
 
 ## License
 

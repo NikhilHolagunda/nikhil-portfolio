@@ -1,19 +1,109 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+@custom-variant dark (&:is(.dark *));
+
+/* ─── Design tokens (shadcn/ui convention) ───
+   Neutral zinc base + a single indigo accent.
+   Light palette on :root, dark palette on .dark (default theme). */
+:root {
+  --radius: 1rem;
+  --background: oklch(0.985 0.002 286);
+  --foreground: oklch(0.21 0.006 286);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.21 0.006 286);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.21 0.006 286);
+  --primary: oklch(0.511 0.262 276.966); /* indigo-600 */
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.955 0.004 286);
+  --secondary-foreground: oklch(0.21 0.006 286);
+  --muted: oklch(0.955 0.004 286);
+  --muted-foreground: oklch(0.47 0.014 286); /* ≥ 4.5:1 on background */
+  --accent: oklch(0.955 0.025 277);
+  --accent-foreground: oklch(0.398 0.195 277.366); /* indigo-800 */
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.912 0.005 286);
+  --input: oklch(0.912 0.005 286);
+  --ring: oklch(0.511 0.262 276.966);
+  --brand: oklch(0.457 0.24 277.023); /* indigo-700 for accent text */
 }
 
-html {
-  scroll-behavior: smooth;
+.dark {
+  --background: oklch(0.145 0.004 286);
+  --foreground: oklch(0.97 0.002 286);
+  --card: oklch(0.185 0.005 286);
+  --card-foreground: oklch(0.97 0.002 286);
+  --popover: oklch(0.185 0.005 286);
+  --popover-foreground: oklch(0.97 0.002 286);
+  --primary: oklch(0.545 0.245 277); /* between indigo-500/600: white text ≥ 4.5:1 */
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.25 0.006 286);
+  --secondary-foreground: oklch(0.97 0.002 286);
+  --muted: oklch(0.25 0.006 286);
+  --muted-foreground: oklch(0.72 0.012 286); /* ≥ 4.5:1 on card */
+  --accent: oklch(0.28 0.06 277);
+  --accent-foreground: oklch(0.87 0.065 274.039); /* indigo-200 */
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 9%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.673 0.182 276.935);
+  --brand: oklch(0.785 0.115 274.713); /* indigo-300 for accent text */
+  color-scheme: dark;
 }
 
-body {
-  background: #141414;
-  color: #e5e5e5;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  min-height: 100vh;
-  overflow-x: hidden;
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-space-grotesk), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --radius-sm: calc(var(--radius) - 8px);
+  --radius-md: calc(var(--radius) - 6px);
+  --radius-lg: calc(var(--radius) - 4px);
+  --radius-xl: var(--radius);
+  --radius-2xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-brand: var(--brand);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+    /* keep anchored sections clear of the sticky header */
+    scroll-padding-top: 5rem;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4 {
+    @apply font-heading tracking-tight;
+  }
+  ::selection {
+    @apply bg-primary text-primary-foreground;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
