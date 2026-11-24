@@ -26,7 +26,6 @@ const SECTIONS = [
   "projects",
   "about",
   "skills",
-  "certifications",
   "experience",
   "hire",
   "contact",
@@ -75,17 +74,6 @@ const PROJECTS: {
     demo: "https://cropcast-app-two.vercel.app",
   },
   {
-    title: "EventHub",
-    tag: "ENTERPRISE",
-    desc: "Secure event management portal with JWT auth, role-based access, and automated reporting.",
-    tech: ["Java", "Spring Boot", "MySQL", "OAuth 2.0", "JUnit"],
-    color: "#FFB547",
-    year: "2024",
-    match: "92%",
-    github: "",
-    demo: "",
-  },
-  {
     title: "DataDash",
     tag: "DATA VIZ · LIVE",
     desc: "Interactive sales analytics dashboard — KPIs, revenue trends, category drill-down, top customers. React + Recharts frontend, Flask + PostgreSQL backend.",
@@ -108,10 +96,43 @@ const PROJECTS: {
     demo: "https://taskflow-rho-neon.vercel.app",
   },
   {
+    title: "SaugaHome Eats",
+    tag: "IN PROGRESS",
+    desc: "Scalable full-stack marketplace connecting local home cooks with community buyers. Event-driven Node.js + PostgreSQL microservices for localized search, user profiles, and secure order processing.",
+    tech: ["React.js", "Node.js", "PostgreSQL", "Microservices"],
+    color: "#FFB547",
+    year: "In Progress",
+    match: "95%",
+    github: "",
+    demo: "",
+  },
+  {
+    title: "Flight Companion",
+    tag: "IN PROGRESS",
+    desc: "Event-driven platform pairing vulnerable travelers, such as elderly passengers flying alone, with companions on identical itineraries. Kafka + Redis for real-time matching, notifications, and itinerary sync.",
+    tech: ["TypeScript", "React", "Spring Boot", "Apache Kafka", "Redis"],
+    color: "#00D4FF",
+    year: "In Progress",
+    match: "95%",
+    github: "",
+    demo: "",
+  },
+  {
+    title: "Training Log",
+    tag: "FITNESS",
+    desc: "Centralized tracker for personal trainers to log client workout routines and daily nutrition. Idempotent Spring Boot REST APIs for client profiles, workout plans, and progress analytics.",
+    tech: ["React", "Java", "Spring Boot", "RESTful APIs"],
+    color: "#46D369",
+    year: "",
+    match: "93%",
+    github: "",
+    demo: "",
+  },
+  {
     title: "This Portfolio",
     tag: "META",
-    desc: "Cinematic developer portfolio with Netflix-inspired UI — because the portfolio itself is proof of skill.",
-    tech: ["React", "Next.js", "Tailwind", "Framer Motion", "Vercel"],
+    desc: "Responsive, accessible portfolio with a Netflix-inspired UI built on Next.js and React, styled with Tailwind CSS to WCAG 2.1 AA standards for cross-device compatibility and fast page loads.",
+    tech: ["Next.js", "React", "Tailwind CSS", "Vercel"],
     color: "#FF6B6B",
     year: "2026",
     match: "94%",
@@ -122,96 +143,110 @@ const PROJECTS: {
 
 const SKILLS = [
   {
-    title: "Full Stack Engineering",
+    title: "Backend & Architecture",
     quote: "I build the backbone.",
     items: [
       "Java",
       "Spring Boot",
-      "Python",
-      "FastAPI",
-      "Flask",
+      "Node.js",
+      "RESTful APIs",
+      "Microservices",
+      "Event-Driven Architecture",
+    ],
+  },
+  {
+    title: "Frontend Development",
+    quote: "I build what users touch.",
+    items: [
+      "React.js",
+      "Angular",
+      "Redux",
+      "TypeScript",
+      "JavaScript (ES6+)",
+      "HTML5",
+      "CSS3",
+      "Responsive Web Design",
+      "WCAG 2.1 AA",
+    ],
+  },
+  {
+    title: "Databases & Messaging",
+    quote: "I turn raw data into decisions.",
+    items: [
       "PostgreSQL",
       "MySQL",
-      "MongoDB",
-      "REST APIs",
+      "Oracle SQL",
+      "Redis",
+      "Apache Kafka",
+    ],
+  },
+  {
+    title: "Cloud, DevOps & Observability",
+    quote: "I ship it and keep it running.",
+    items: [
+      "Microsoft Azure",
+      "AWS",
+      "Docker",
+      "Kubernetes",
+      "Jenkins",
+      "Git",
+      "CI/CD Pipelines",
+      "Splunk",
+      "Azure Monitor",
+    ],
+  },
+  {
+    title: "Security, IAM & IT Ops",
+    quote: "I keep the doors locked.",
+    items: [
       "OAuth 2.0",
+      "JWT",
+      "RBAC",
+      "MFA",
+      "NetIQ",
+      "VDI (Omnissa Horizon)",
+      "Microsoft 365 Admin",
+      "Incident Triage",
+      "RCA",
     ],
   },
   {
     title: "AI & Machine Learning",
     quote: "I teach machines to make decisions.",
     items: [
-      "Scikit-learn",
-      "TensorFlow",
-      "PyTorch",
-      "LangChain",
-      "OpenAI GPT",
-      "NLP",
-      "ETL Pipelines",
+      "Generative AI",
+      "LLMs",
+      "Prompt Engineering",
+      "Machine Learning (Random Forest)",
+      "Predictive Analytics",
+      "AI-Driven Automation",
     ],
   },
   {
-    title: "Digital Marketing & Growth",
-    quote: "I connect what's built to who needs it.",
+    title: "Testing & Domain",
+    quote: "I ship it right the first time.",
     items: [
-      "Google Analytics",
-      "Power BI",
-      "SEO/SEM",
-      "A/B Testing",
-      "Marketing Automation",
+      "Jest",
+      "JUnit",
+      "Postman",
+      "Agile/Scrum",
+      "Canadian Banking Compliance (OSFI)",
+      "Open Banking",
     ],
   },
-  {
-    title: "Data Engineering",
-    quote: "I turn raw data into decisions.",
-    items: [
-      "Apache Spark",
-      "Kafka",
-      "Airflow",
-      "Snowflake",
-      "SQL",
-      "dbt",
-      "Pandas",
-      "Data Warehousing",
-      "ETL/ELT",
-    ],
-  },
-  {
-    title: "Cloud, DevOps & Ops",
-    quote: "I ship it and keep it running.",
-    items: [
-      "Docker",
-      "Kubernetes",
-      "AWS",
-      "GitHub Actions",
-      "Jenkins",
-      "CI/CD",
-      "JIRA",
-      "Agile",
-    ],
-  },
-];
-
-const CERTS = [
-  { name: "IBM Data Analyst Professional Certificate", issuer: "IBM / NPower Canada", applied: "SQL, pandas, IBM Cognos, dashboards end-to-end", year: "2025" },
-  { name: "AWS Cloud Practitioner", issuer: "Amazon Web Services", applied: "Deployed Mandara microservices on AWS", year: "2024" },
-  { name: "Google Analytics Certified", issuer: "Google", applied: "Marketing dashboards at Mandara", year: "2024" },
-  { name: "Docker & Kubernetes", issuer: "LinkedIn Learning", applied: "Container orchestration in production", year: "2023" },
-  { name: "Python for Data Science", issuer: "IBM / Coursera", applied: "Built CropCast ML pipeline", year: "2023" },
-  { name: "Spring Boot Masterclass", issuer: "Udemy", applied: "Enterprise APIs at Infosys", year: "2021" },
 ];
 
 const TIMELINE = [
   {
     year: "Jul 2026 – Present",
-    role: "Security Engineer",
-    co: "Accenture (client: BMW)",
+    role: "Full Stack Developer",
+    co: "Accenture (Client: BMW Group)",
     loc: "Canada",
     pts: [
-      "Splunk administration — searches, dashboards, alerts, data-source onboarding",
-      "Incident triage and RCA via ServiceNow, owned end to end",
-      "Azure AD IAM + MFA via NetIQ / OT Advanced Authentication",
-      "VDI provisioning and M365 licensing on Omnissa Horizon",
+      "Production reliability and cloud ops for BMW's BOBCAT platform on Azure",
+      "Splunk observability pipelines with AI-driven predictive analytics",
+      "Led RCA and incident triage for high-severity outages",
+      "VDI via Omnissa Horizon and MFA via NetIQ; M365/Azure provisioning",
     ],
   },
   {
@@ -227,24 +262,39 @@ const TIMELINE = [
     ],
   },
   {
-    year: "Dec 2021 – Jul 2022",
-    role: "System Engineer",
-    co: "Infosys Ltd.",
-    loc: "Hyderabad, India",
+    year: "Jun 2025 – May 2026",
+    role: "Full-Stack Software Developer",
+    co: "Fiserv",
+    loc: "Canada",
     pts: [
-      "Java backend for an online-banking platform, tested via Postman",
-      "Internal certifications: Java, DBMS, Spring Boot, Postman, Maven",
-      "Delivered features across Agile sprints with the platform team",
+      "Digital banking portals in React + TypeScript — 24% faster UI, WCAG 2.1 AA",
+      "Event-driven Spring Boot + Node.js microservices for EFT, Interac & Wire",
+      "Kafka + PostgreSQL/Redis for 24/7 processing at sub-second latency",
+      "OAuth 2.0, JWT and RBAC to meet OSFI compliance standards",
     ],
   },
   {
-    year: "Jan 2021 – Nov 2021",
-    role: "Software Engineering Trainee",
-    co: "Urjith Technologies",
-    loc: "Hyderabad, India",
+    year: "Aug 2021 – Aug 2023",
+    role: "Full-Stack Software Developer",
+    co: "Infosys",
+    loc: "India",
     pts: [
-      "Java, Spring Boot, JDBC, PostgreSQL on real client projects",
-      "Contributed to gaming platform backend and testing",
+      "Modernised Infosys Finacle banking modules for 500,000+ active users",
+      "React + TypeScript onboarding and transfer UIs — 22% faster page loads",
+      "Spring Boot microservices and Oracle SQL / PostgreSQL optimisation",
+      "CI/CD with Git, Jenkins & Docker — 25% fewer post-release defects",
+    ],
+  },
+  {
+    year: "Dec 2019 – Jul 2021",
+    role: "Full-Stack Software Developer",
+    co: "Paytm",
+    loc: "India",
+    pts: [
+      "Built UPI AutoPay and RBI-compliant recurring payments engine",
+      "React checkout and mandate flows — 18% fewer checkout drop-offs",
+      "Subscription management dashboard for 10,000+ merchants",
+      "Idempotent Spring Boot / Node.js APIs with Redis + Kafka — 99.9% uptime",
     ],
   },
 ];
@@ -333,7 +383,7 @@ export default function Portfolio() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const typed = useTyping([
-    "Security Engineer @ Accenture",
+    "Full Stack Developer @ Accenture",
     "Building AI + data products",
     "Open to full-time opportunities",
     "Available for interviews",
@@ -433,7 +483,6 @@ export default function Portfolio() {
           .pcard{width:260px!important}
           .contact-types{flex-direction:column!important;gap:6px!important}
           .hero-title{font-size:52px!important}
-          .role-tags{justify-content:center!important}
         }
         @media (max-width: 480px) {
           .hire-grid{grid-template-columns:1fr!important}
@@ -726,9 +775,10 @@ export default function Portfolio() {
               maxWidth: 520,
             }}
           >
-            From enterprise banking systems at Infosys to founding Mandara
-            Marketing Solutions — an AI-powered automation platform serving real
-            clients in production.
+            Full-Stack Software Engineer with 4+ years building high-availability
+            digital banking and enterprise platforms across Canada and India —
+            Java (Spring Boot), React/TypeScript, Node.js, and event-driven
+            microservices on Kafka.
           </p>
 
           <div style={{ height: 28, marginBottom: 28 }}>
@@ -1066,7 +1116,7 @@ export default function Portfolio() {
             {
               ep: "EP 01",
               title: "The Origin",
-              text: "Started writing enterprise Java at Infosys — secure banking APIs, 10,000+ daily transactions, 99.85% uptime. But I wanted to build something of my own.",
+              text: "Started at Paytm building UPI AutoPay and a recurring payments engine for millions of mandates, then modernised Infosys Finacle banking modules for 500,000+ users.",
             },
             {
               ep: "EP 02",
@@ -1081,7 +1131,7 @@ export default function Portfolio() {
             {
               ep: "EP 04",
               title: "The Present",
-              text: "Running Mandara Marketing Solutions — AI marketing automation built from scratch. I design systems, write code, train models, and close deals.",
+              text: "After building digital banking features at Fiserv, I now keep BMW's BOBCAT platform healthy at Accenture — Azure cloud ops, Splunk observability, and AI-assisted incident response.",
             },
           ].map((card, i) => (
             <FadeIn key={i} delay={i * 0.1}>
@@ -1160,10 +1210,10 @@ export default function Portfolio() {
         >
           {[
             { val: "4+", label: "Years Experience" },
-            { val: "10K+", label: "Transactions/Day" },
-            { val: "50+", label: "AI Workflows" },
-            { val: "99.85%", label: "System Uptime" },
-            { val: "1", label: "Company Founded" },
+            { val: "500K+", label: "Banking Users Served" },
+            { val: "10K+", label: "Merchants Supported" },
+            { val: "99.9%", label: "Platform Uptime" },
+            { val: "25%", label: "Fewer Post-Release Defects" },
           ].map((s, i) => (
             <FadeIn key={i} delay={i * 0.08}>
               <div style={{ textAlign: "center", minWidth: 120 }}>
@@ -1262,89 +1312,6 @@ export default function Portfolio() {
                     </span>
                   ))}
                 </div>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
-      </section>
-
-      {/* CERTIFICATIONS */}
-      <section
-        id="certifications"
-        style={{ padding: "20px 0 40px" }}
-      >
-        <FadeIn>
-          <div
-            className="section-pad"
-            style={{
-              padding: "0 48px",
-              marginBottom: 20,
-            }}
-          >
-            <h2 style={{ fontSize: 22, fontWeight: 700, color: C.white }}>
-              Certifications
-            </h2>
-          </div>
-        </FadeIn>
-        <div className="row-scroll">
-          {CERTS.map((cert, i) => (
-            <FadeIn key={i} delay={i * 0.06}>
-              <div
-                style={{
-                  width: 250,
-                  padding: 20,
-                  background: C.bgCard,
-                  borderRadius: 6,
-                  border: `1px solid ${C.border}`,
-                  transition: "border-color .3s",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.borderColor = C.borderLight)
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.borderColor = C.border)
-                }
-              >
-                <span
-                  style={{
-                    fontSize: 11,
-                    fontWeight: 700,
-                    color: C.red,
-                    letterSpacing: 1,
-                  }}
-                >
-                  {cert.year}
-                </span>
-                <h3
-                  style={{
-                    fontSize: 15,
-                    fontWeight: 700,
-                    color: C.white,
-                    marginTop: 6,
-                    marginBottom: 4,
-                  }}
-                >
-                  {cert.name}
-                </h3>
-                <p
-                  style={{
-                    fontSize: 12,
-                    color: C.textMuted,
-                    marginBottom: 10,
-                  }}
-                >
-                  {cert.issuer}
-                </p>
-                <p
-                  style={{
-                    fontSize: 12,
-                    color: C.textDim,
-                    fontStyle: "italic",
-                    lineHeight: 1.4,
-                  }}
-                >
-                  Applied: {cert.applied}
-                </p>
               </div>
             </FadeIn>
           ))}
@@ -1546,21 +1513,18 @@ export default function Portfolio() {
           {[
             {
               s: "Conestoga College",
-              d: "Data Processing & Reporting",
-              y: "2025",
-              g: "3.8",
+              d: "Graduate Certificate — Data Processing & Reporting",
+              y: "Nov 2024 – May 2025",
             },
             {
               s: "Algoma University",
-              d: "Information Technology",
-              y: "2024",
-              g: "3.7",
+              d: "Graduate Certificate — Information Technology",
+              y: "Sep 2023 – Aug 2024",
             },
             {
-              s: "SVIT, India",
-              d: "B.Tech Computer Science",
-              y: "2020",
-              g: "3.6",
+              s: "Swami Vivekananda Institute of Technology, India",
+              d: "B.Tech in Computer Science & Engineering",
+              y: "May 2016 – Aug 2020",
             },
           ].map((e, i) => (
             <FadeIn key={i} delay={i * 0.08}>
@@ -1596,11 +1560,6 @@ export default function Portfolio() {
                   style={{ fontSize: 13, color: C.textMuted, marginTop: 2 }}
                 >
                   {e.s}
-                </p>
-                <p
-                  style={{ fontSize: 12, color: C.textDim, marginTop: 6 }}
-                >
-                  GPA: {e.g}/4.0
                 </p>
               </div>
             </FadeIn>
@@ -1740,56 +1699,6 @@ export default function Portfolio() {
             </FadeIn>
           ))}
         </div>
-
-        <FadeIn>
-          <h3
-            style={{
-              fontSize: 16,
-              fontWeight: 700,
-              color: C.white,
-              marginBottom: 14,
-            }}
-          >
-            Best fit for:
-          </h3>
-          <div
-            className="role-tags"
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 8,
-              marginBottom: 32,
-            }}
-          >
-            {[
-              "Software Engineer",
-              "Data Engineer",
-              "Data Analyst",
-              "Full Stack Developer",
-              "Backend Engineer",
-              "Security Engineer",
-              "Cloud Developer",
-              "Python Developer",
-              "Java Developer",
-              "AI/ML Engineer",
-            ].map((r, i) => (
-              <span
-                key={i}
-                style={{
-                  padding: "6px 16px",
-                  background: C.greenDim,
-                  border: "1px solid rgba(70,211,105,.3)",
-                  borderRadius: 3,
-                  fontSize: 13,
-                  color: C.green,
-                  fontWeight: 500,
-                }}
-              >
-                {r}
-              </span>
-            ))}
-          </div>
-        </FadeIn>
 
         <FadeIn delay={0.1}>
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -2031,7 +1940,7 @@ export default function Portfolio() {
                 {[
                   {
                     label: "Email",
-                    val: "nikhilholagunda07@gmail.com",
+                    val: "nikhilholagunda522@gmail.com",
                   },
                   {
                     label: "LinkedIn",
@@ -2041,7 +1950,7 @@ export default function Portfolio() {
                     label: "GitHub",
                     val: "github.com/nikhilholagunda",
                   },
-                  { label: "Phone", val: "437-662-1898" },
+                  { label: "Phone", val: "+1 (437) 662-1898" },
                 ].map((s, i) => (
                   <div
                     key={i}
