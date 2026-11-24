@@ -26,7 +26,6 @@ const SECTIONS = [
   "projects",
   "about",
   "skills",
-  "certifications",
   "experience",
   "hire",
   "contact",
@@ -73,17 +72,6 @@ const PROJECTS: {
     match: "98%",
     github: "https://github.com/NikhilHolagunda/cropcast",
     demo: "https://cropcast-app-two.vercel.app",
-  },
-  {
-    title: "EventHub",
-    tag: "ENTERPRISE",
-    desc: "Secure event management portal with JWT auth, role-based access, and automated reporting.",
-    tech: ["Java", "Spring Boot", "MySQL", "OAuth 2.0", "JUnit"],
-    color: "#FFB547",
-    year: "2024",
-    match: "92%",
-    github: "",
-    demo: "",
   },
   {
     title: "DataDash",
@@ -248,15 +236,6 @@ const SKILLS = [
   },
 ];
 
-const CERTS = [
-  { name: "IBM Data Analyst Professional Certificate", issuer: "IBM / NPower Canada", applied: "SQL, pandas, IBM Cognos, dashboards end-to-end", year: "2025" },
-  { name: "AWS Cloud Practitioner", issuer: "Amazon Web Services", applied: "Deployed Mandara microservices on AWS", year: "2024" },
-  { name: "Google Analytics Certified", issuer: "Google", applied: "Marketing dashboards at Mandara", year: "2024" },
-  { name: "Docker & Kubernetes", issuer: "LinkedIn Learning", applied: "Container orchestration in production", year: "2023" },
-  { name: "Python for Data Science", issuer: "IBM / Coursera", applied: "Built CropCast ML pipeline", year: "2023" },
-  { name: "Spring Boot Masterclass", issuer: "Udemy", applied: "Enterprise APIs at Infosys", year: "2021" },
-];
-
 const TIMELINE = [
   {
     year: "Jul 2026 – Present",
@@ -268,6 +247,18 @@ const TIMELINE = [
       "Splunk observability pipelines with AI-driven predictive analytics",
       "Led RCA and incident triage for high-severity outages",
       "VDI via Omnissa Horizon and MFA via NetIQ; M365/Azure provisioning",
+    ],
+  },
+  {
+    year: "Aug 2025 – Jan 2026",
+    role: "Founder",
+    co: "Mandara Marketing Solutions",
+    loc: "Brampton, ON",
+    pts: [
+      "Built AI marketing automation engine with LLMs + prompt engineering",
+      "Full-stack apps in Java Spring Boot, React, PostgreSQL",
+      "Consulted on digital transformation for growth-stage startups",
+      "Full ownership: architecture → code → clients",
     ],
   },
   {
@@ -492,7 +483,6 @@ export default function Portfolio() {
           .pcard{width:260px!important}
           .contact-types{flex-direction:column!important;gap:6px!important}
           .hero-title{font-size:52px!important}
-          .role-tags{justify-content:center!important}
         }
         @media (max-width: 480px) {
           .hire-grid{grid-template-columns:1fr!important}
@@ -1328,89 +1318,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* CERTIFICATIONS */}
-      <section
-        id="certifications"
-        style={{ padding: "20px 0 40px" }}
-      >
-        <FadeIn>
-          <div
-            className="section-pad"
-            style={{
-              padding: "0 48px",
-              marginBottom: 20,
-            }}
-          >
-            <h2 style={{ fontSize: 22, fontWeight: 700, color: C.white }}>
-              Certifications
-            </h2>
-          </div>
-        </FadeIn>
-        <div className="row-scroll">
-          {CERTS.map((cert, i) => (
-            <FadeIn key={i} delay={i * 0.06}>
-              <div
-                style={{
-                  width: 250,
-                  padding: 20,
-                  background: C.bgCard,
-                  borderRadius: 6,
-                  border: `1px solid ${C.border}`,
-                  transition: "border-color .3s",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.borderColor = C.borderLight)
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.borderColor = C.border)
-                }
-              >
-                <span
-                  style={{
-                    fontSize: 11,
-                    fontWeight: 700,
-                    color: C.red,
-                    letterSpacing: 1,
-                  }}
-                >
-                  {cert.year}
-                </span>
-                <h3
-                  style={{
-                    fontSize: 15,
-                    fontWeight: 700,
-                    color: C.white,
-                    marginTop: 6,
-                    marginBottom: 4,
-                  }}
-                >
-                  {cert.name}
-                </h3>
-                <p
-                  style={{
-                    fontSize: 12,
-                    color: C.textMuted,
-                    marginBottom: 10,
-                  }}
-                >
-                  {cert.issuer}
-                </p>
-                <p
-                  style={{
-                    fontSize: 12,
-                    color: C.textDim,
-                    fontStyle: "italic",
-                    lineHeight: 1.4,
-                  }}
-                >
-                  Applied: {cert.applied}
-                </p>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
-      </section>
-
       {/* MARKETING PROOF METRICS */}
       <section
         className="section-pad"
@@ -1608,19 +1515,16 @@ export default function Portfolio() {
               s: "Conestoga College",
               d: "Graduate Certificate — Data Processing & Reporting",
               y: "Nov 2024 – May 2025",
-              g: "3.8",
             },
             {
               s: "Algoma University",
               d: "Graduate Certificate — Information Technology",
               y: "Sep 2023 – Aug 2024",
-              g: "3.7",
             },
             {
               s: "Swami Vivekananda Institute of Technology, India",
               d: "B.Tech in Computer Science & Engineering",
               y: "May 2016 – Aug 2020",
-              g: "3.6",
             },
           ].map((e, i) => (
             <FadeIn key={i} delay={i * 0.08}>
@@ -1656,11 +1560,6 @@ export default function Portfolio() {
                   style={{ fontSize: 13, color: C.textMuted, marginTop: 2 }}
                 >
                   {e.s}
-                </p>
-                <p
-                  style={{ fontSize: 12, color: C.textDim, marginTop: 6 }}
-                >
-                  GPA: {e.g}/4.0
                 </p>
               </div>
             </FadeIn>
@@ -1800,56 +1699,6 @@ export default function Portfolio() {
             </FadeIn>
           ))}
         </div>
-
-        <FadeIn>
-          <h3
-            style={{
-              fontSize: 16,
-              fontWeight: 700,
-              color: C.white,
-              marginBottom: 14,
-            }}
-          >
-            Best fit for:
-          </h3>
-          <div
-            className="role-tags"
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 8,
-              marginBottom: 32,
-            }}
-          >
-            {[
-              "Software Engineer",
-              "Data Engineer",
-              "Data Analyst",
-              "Full Stack Developer",
-              "Backend Engineer",
-              "Security Engineer",
-              "Cloud Developer",
-              "Python Developer",
-              "Java Developer",
-              "AI/ML Engineer",
-            ].map((r, i) => (
-              <span
-                key={i}
-                style={{
-                  padding: "6px 16px",
-                  background: C.greenDim,
-                  border: "1px solid rgba(70,211,105,.3)",
-                  borderRadius: 3,
-                  fontSize: 13,
-                  color: C.green,
-                  fontWeight: 500,
-                }}
-              >
-                {r}
-              </span>
-            ))}
-          </div>
-        </FadeIn>
 
         <FadeIn delay={0.1}>
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
