@@ -1,47 +1,40 @@
-import * as React from "react";
+import { MaskReveal, WipeLine } from "@/components/fx/reveal";
 
-import { cn } from "@/lib/utils";
-import { Reveal } from "@/components/reveal";
-
+/** Shared section shell: wipe line, mono index, oversized masked heading. */
 export function Section({
   id,
-  eyebrow,
+  index,
+  label,
   title,
-  intro,
   children,
   className,
 }: {
   id: string;
-  eyebrow: string;
-  title: string;
-  intro?: string;
+  index: string;
+  label: string;
+  title: React.ReactNode;
   children: React.ReactNode;
   className?: string;
 }) {
-  const headingId = `${id}-heading`;
   return (
     <section
       id={id}
-      aria-labelledby={headingId}
-      className={cn("mx-auto max-w-6xl px-5 py-16 sm:px-8 md:py-24", className)}
+      aria-labelledby={`${id}-title`}
+      className={`relative mx-auto w-full max-w-7xl px-5 py-24 sm:px-8 md:py-36 ${className ?? ""}`}
     >
-      <Reveal className="mb-10 max-w-2xl md:mb-14">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-brand">
-          {eyebrow}
-        </p>
-        <h2
-          id={headingId}
-          className="text-3xl font-bold leading-tight sm:text-4xl"
-        >
-          {title}
-        </h2>
-        {intro && (
-          <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-            {intro}
-          </p>
-        )}
-      </Reveal>
-      {children}
+      <WipeLine className="mb-10" />
+      <p className="mb-5 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.3em] text-dim">
+        <span className="text-cyan">{index}</span>
+        <span aria-hidden="true" className="h-px w-8 bg-dim/50" />
+        {label}
+      </p>
+      <h2
+        id={`${id}-title`}
+        className="font-display text-[clamp(2.6rem,8vw,6.5rem)] font-bold leading-[0.92] tracking-[-0.04em]"
+      >
+        <MaskReveal>{title}</MaskReveal>
+      </h2>
+      <div className="mt-14 md:mt-20">{children}</div>
     </section>
   );
 }

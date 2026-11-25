@@ -1,84 +1,106 @@
-import { ArrowUpRight, Download, Mail, MapPin, Phone } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { ArrowUpRight, Check, Copy, Download, MapPin, Phone } from "lucide-react";
 
 import { profile } from "@/lib/data";
 import { Section } from "@/components/section";
-import { Reveal } from "@/components/reveal";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Reveal } from "@/components/fx/reveal";
+import { ScrambleText } from "@/components/fx/scramble-text";
+import { Magnetic } from "@/components/fx/magnetic";
 import { ContactForm } from "@/components/contact-form";
 import { GitHubIcon, LinkedInIcon } from "@/components/brand-icons";
 
-const channels = [
-  { Icon: Mail, label: "Email", value: profile.email, href: `mailto:${profile.email}` },
-  { Icon: Phone, label: "Phone", value: profile.phone, href: profile.phoneHref },
-  { Icon: LinkedInIcon, label: "LinkedIn", value: "linkedin.com/in/nikhilholagunda", href: profile.linkedin, external: true },
-  { Icon: GitHubIcon, label: "GitHub", value: "github.com/NikhilHolagunda", href: profile.github, external: true },
-  { Icon: MapPin, label: "Location", value: profile.location },
-];
-
 export function ContactSection() {
+  const [copied, setCopied] = useState(false);
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(profile.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {
+      /* clipboard unavailable — the mailto link still works */
+    }
+  }
+
+  const channels = [
+    { label: "Phone", value: profile.phone, href: profile.phoneHref, Icon: Phone },
+    { label: "LinkedIn", value: "in/nikhilholagunda", href: profile.linkedin, Icon: LinkedInIcon, external: true },
+    { label: "GitHub", value: "NikhilHolagunda", href: profile.github, Icon: GitHubIcon, external: true },
+  ];
+
   return (
-    <Section
-      id="contact"
-      eyebrow="Contact"
-      title="Let's talk"
-      intro="Reach out by email, phone, or the form. I'll get back to you as soon as I can."
-    >
-      <div className="grid gap-8 lg:grid-cols-[1fr_1.15fr] lg:gap-12">
+    <Section id="contact" index="06" label="Contact" title={<>Let&apos;s <span className="text-neon">talk</span>.</>}>
+      {/* Giant email */}
+      <Reveal className="flex flex-wrap items-center gap-4">
+        <a
+          href={`mailto:${profile.email}`}
+          className="group inline-flex max-w-full items-center gap-3 font-display text-[clamp(1.35rem,4.6vw,4rem)] font-bold tracking-[-0.03em] transition-colors hover:text-cyan"
+        >
+          <ScrambleText text={profile.email} trigger="hover" duration={600} className="break-all" />
+          <ArrowUpRight
+            className="size-[0.8em] shrink-0 transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1"
+            aria-hidden="true"
+          />
+        </a>
+        <button
+          type="button"
+          onClick={copy}
+          aria-label={copied ? "Email address copied" : "Copy email address"}
+          className="grid size-11 place-items-center rounded-full border border-line text-muted transition-colors hover:border-cyan/60 hover:text-cyan"
+        >
+          {copied ? <Check className="size-4" aria-hidden="true" /> : <Copy className="size-4" aria-hidden="true" />}
+        </button>
+      </Reveal>
+
+      <div className="mt-16 grid gap-8 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-12">
         <Reveal className="space-y-3">
-          <ul className="space-y-3">
-            {channels.map(({ Icon, label, value, href, external }) => {
-              const inner = (
-                <>
-                  <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-accent text-accent-foreground">
-                    <Icon className="size-5" aria-hidden />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                      {label}
-                    </span>
-                    <span className="block break-words font-medium">{value}</span>
-                  </span>
-                  {href && (
-                    <ArrowUpRight
-                      className="size-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brand"
-                      aria-hidden
-                    />
-                  )}
-                </>
-              );
-              const cls =
-                "group flex items-center gap-4 rounded-2xl border bg-card p-4 shadow-sm shadow-black/5 transition-all";
-              return (
-                <li key={label}>
-                  {href ? (
-                    <a
-                      href={href}
-                      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                      className={`${cls} hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md active:scale-[0.99] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/60`}
-                    >
-                      {inner}
-                    </a>
-                  ) : (
-                    <div className={cls}>{inner}</div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-          <Button asChild variant="outline" size="lg" className="mt-2 w-full sm:w-auto">
-            <a href={profile.resume} download="Nikhil-Holagunda-Resume.pdf">
-              <Download aria-hidden />
-              Download resume (PDF)
+          {channels.map(({ label, value, href, Icon, external }) => (
+            <a
+              key={label}
+              href={href}
+              {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              aria-label={`${label}: ${value}${external ? " (opens in a new tab)" : ""}`}
+              className="group glass flex items-center gap-4 rounded-2xl p-4 transition-colors hover:border-cyan/50"
+            >
+              <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-cyan/10 text-cyan">
+                <Icon className="size-[18px]" aria-hidden="true" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block font-mono text-[11px] uppercase tracking-[0.2em] text-dim">{label}</span>
+                <span className="block truncate text-fg">{value}</span>
+              </span>
+              <ArrowUpRight className="size-4 text-dim transition-colors group-hover:text-cyan" aria-hidden="true" />
             </a>
-          </Button>
+          ))}
+          <div className="glass flex items-center gap-4 rounded-2xl p-4">
+            <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-cyan/10 text-cyan">
+              <MapPin className="size-[18px]" aria-hidden="true" />
+            </span>
+            <span>
+              <span className="block font-mono text-[11px] uppercase tracking-[0.2em] text-dim">Location</span>
+              <span className="block text-fg">{profile.location}</span>
+            </span>
+          </div>
+          <div className="pt-4">
+            <Magnetic>
+              <a
+                href={profile.resume}
+                download
+                className="inline-flex h-12 items-center gap-3 rounded-full border border-cyan/50 px-6 font-mono text-xs font-semibold uppercase tracking-wider text-cyan transition-colors hover:bg-cyan hover:text-bg"
+              >
+                <Download className="size-4" aria-hidden="true" />
+                Download resume
+              </a>
+            </Magnetic>
+          </div>
         </Reveal>
 
-        <Reveal delay={0.1}>
-          <Card className="p-6 sm:p-8">
-            <h3 className="text-xl font-semibold">Send a message</h3>
-            <ContactForm />
-          </Card>
+        <Reveal delay={0.1} className="glass rounded-[1.75rem] p-6 md:p-9">
+          <h3 className="font-display text-2xl font-bold tracking-tight">Send a message</h3>
+          <p className="mb-6 mt-2 text-muted">Goes straight to my inbox.</p>
+          <ContactForm />
         </Reveal>
       </div>
     </Section>

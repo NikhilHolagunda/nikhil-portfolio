@@ -1,131 +1,174 @@
 "use client";
 
-import * as React from "react";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 import { navItems, profile } from "@/lib/data";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/theme-toggle";
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 export function SiteHeader() {
-  const [open, setOpen] = React.useState(false);
-  const [scrolled, setScrolled] = React.useState(false);
-  const [active, setActive] = React.useState<string>("");
+  const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState<string>("");
+  const [open, setOpen] = useState(false);
+  const reduce = useReducedMotion();
 
-  React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
-  // Highlight the nav item for the section currently in view.
-  React.useEffect(() => {
-    const sections = navItems
-      .map((n) => document.getElementById(n.id))
-      .filter((el): el is HTMLElement => el !== null);
-    const obs = new IntersectionObserver(
+    const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) if (e.isIntersecting) setActive(e.target.id);
       },
       { rootMargin: "-45% 0px -50% 0px" }
     );
-    sections.forEach((s) => obs.observe(s));
-    return () => obs.disconnect();
+    navItems.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (el) io.observe(el);
+    });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      io.disconnect();
+    };
   }, []);
 
-  // Close the mobile menu on Escape.
-  React.useEffect(() => {
+  useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
   }, [open]);
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 w-full border-b transition-colors duration-300",
-        scrolled || open
-          ? "border-border bg-background/80 backdrop-blur-lg"
-          : "border-transparent bg-transparent"
-      )}
-    >
+    <>
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:rounded-lg focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground"
+        className="sr-only z-[120] rounded-full bg-cyan px-4 py-2 font-mono text-sm text-bg focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
       >
         Skip to content
       </a>
-      <nav
-        aria-label="Primary"
-        className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8"
-      >
-        <a
-          href="#top"
-          className="rounded-lg font-heading text-lg font-bold tracking-tight focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/60"
-          onClick={() => setOpen(false)}
+
+      <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-[calc(env(safe-area-inset-top,0px)+0.75rem)]">
+        <motion.div
+          initial={reduce ? false : { y: -40, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, ease: EASE, delay: 0.2 }}
+          className={cn(
+            "flex w-full items-center justify-between gap-4 rounded-full border transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+            scrolled
+              ? "max-w-3xl border-line bg-bg/60 py-2 pl-5 pr-2 shadow-[0_8px_40px_-12px_rgb(0_0_0/0.8)] backdrop-blur-xl"
+              : "max-w-7xl border-transparent bg-transparent px-3 py-3 sm:px-5"
+          )}
         >
-          {profile.name.split(" ")[0]}
-          <span className="text-brand">.</span>
-        </a>
+          <a
+            href="#top"
+            className="group flex items-center gap-2 font-mono text-sm font-semibold tracking-wider"
+          >
+            <span aria-hidden="true" className="grid size-8 place-items-center rounded-lg border border-cyan/50 bg-cyan/10 text-cyan transition-shadow group-hover:shadow-[0_0_20px_var(--cyan)]">
+              {profile.initials}
+            </span>
+            <span className={cn("sr-only sm:not-sr-only", scrolled && "lg:sr-only")}>
+              {profile.name.toUpperCase()}
+            </span>
+            <span className="sr-only">, back to top</span>
+          </a>
 
-        <ul className="hidden items-center gap-1 md:flex">
-          {navItems.map((n) => (
-            <li key={n.id}>
-              <a
-                href={`#${n.id}`}
-                aria-current={active === n.id ? "true" : undefined}
-                className={cn(
-                  "rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/60",
-                  active === n.id && "text-foreground"
-                )}
-              >
-                {n.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+          <nav aria-label="Primary" className="hidden md:block">
+            <ul className="flex items-center gap-1">
+              {navItems.map(({ id, label }) => (
+                <li key={id}>
+                  <a
+                    href={`#${id}`}
+                    aria-current={active === id ? "true" : undefined}
+                    className={cn(
+                      "relative isolate block rounded-full px-3.5 py-2 font-mono text-xs uppercase tracking-wider transition-colors",
+                      active === id ? "text-bg" : "text-muted hover:text-fg"
+                    )}
+                  >
+                    {active === id && (
+                      <motion.span
+                        layoutId="nav-pill"
+                        className="absolute inset-0 -z-10 rounded-full bg-cyan"
+                        transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                      />
+                    )}
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-        <div className="flex items-center gap-1">
-          <ThemeToggle />
-          <Button asChild size="sm" className="ml-1 hidden sm:inline-flex">
-            <a href="#contact">Get in touch</a>
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden"
-            aria-label={open ? "Close menu" : "Open menu"}
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            aria-label="Open menu"
             aria-expanded={open}
             aria-controls="mobile-nav"
-            onClick={() => setOpen((o) => !o)}
+            className="grid size-11 place-items-center rounded-full border border-line bg-bg/40 backdrop-blur-md md:hidden"
           >
-            {open ? <X className="size-5" /> : <Menu className="size-5" />}
-          </Button>
-        </div>
-      </nav>
+            <Menu className="size-5" aria-hidden="true" />
+          </button>
+        </motion.div>
+      </header>
 
-      <div
-        id="mobile-nav"
-        hidden={!open}
-        className="border-t bg-background/95 backdrop-blur-lg md:hidden"
-      >
-        <ul className="mx-auto flex max-w-6xl flex-col px-5 py-3">
-          {navItems.map((n) => (
-            <li key={n.id}>
-              <a
-                href={`#${n.id}`}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            id="mobile-nav"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site navigation"
+            initial={{ clipPath: "circle(0% at 100% 0%)" }}
+            animate={{ clipPath: "circle(150% at 100% 0%)" }}
+            exit={{ clipPath: "circle(0% at 100% 0%)" }}
+            transition={{ duration: reduce ? 0 : 0.6, ease: EASE }}
+            className="fixed inset-0 z-[110] flex flex-col bg-bg/95 px-6 pb-10 pt-[calc(env(safe-area-inset-top,0px)+1.25rem)] backdrop-blur-2xl md:hidden"
+          >
+            <div className="flex justify-end">
+              <button
+                type="button"
+                autoFocus
                 onClick={() => setOpen(false)}
-                className="block rounded-xl px-3 py-3 text-base font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground active:bg-accent focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/60"
+                aria-label="Close menu"
+                className="grid size-11 place-items-center rounded-full border border-line"
               >
-                {n.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </header>
+                <X className="size-5" aria-hidden="true" />
+              </button>
+            </div>
+            <nav aria-label="Mobile" className="mt-10 flex-1">
+              <ul className="space-y-2">
+                {navItems.map(({ id, label }, i) => (
+                  <motion.li
+                    key={id}
+                    initial={reduce ? false : { opacity: 0, x: 40 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, ease: EASE, delay: 0.15 + i * 0.05 }}
+                  >
+                    <a
+                      href={`#${id}`}
+                      onClick={() => setOpen(false)}
+                      className="flex items-baseline gap-4 py-2 font-display text-5xl font-bold tracking-tight transition-colors hover:text-cyan"
+                    >
+                      <span className="font-mono text-xs text-cyan">0{i + 1}</span>
+                      {label}
+                    </a>
+                  </motion.li>
+                ))}
+              </ul>
+            </nav>
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-dim">{profile.email}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
