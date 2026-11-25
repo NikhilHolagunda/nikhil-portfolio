@@ -81,12 +81,12 @@ export function Hero() {
 
         <h1 className="font-display font-bold uppercase leading-[0.82] tracking-[-0.055em]">
           <span
-            className="glitch block text-[clamp(3.6rem,15.5vw,13.5rem)]"
+            className="glitch block whitespace-nowrap text-[clamp(3.2rem,13.8vw,12.5rem)]"
             data-text="Nikhil"
           >
             <ScrambleText text="Nikhil" duration={900} delay={150} />
           </span>
-          <span className="block text-[clamp(3.6rem,15.5vw,13.5rem)]">
+          <span className="block whitespace-nowrap text-[clamp(3.2rem,13.8vw,12.5rem)]">
             <span className="text-outline">
               <ScrambleText text="Holagunda" duration={1300} delay={300} />
             </span>
