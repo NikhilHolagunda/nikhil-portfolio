@@ -2,34 +2,35 @@ import { GraduationCap } from "lucide-react";
 
 import { education } from "@/lib/data";
 import { Section } from "@/components/section";
-import { Reveal } from "@/components/reveal";
-import { Card } from "@/components/ui/card";
+import { Reveal } from "@/components/fx/reveal";
 
 export function EducationSection() {
   return (
-    <Section id="education" eyebrow="Education" title="Education">
-      <ul className="grid gap-5 md:grid-cols-3">
+    <Section id="education" index="05" label="Education" title={<>Always <span className="text-neon">learning</span>.</>}>
+      <ol className="grid gap-4 md:grid-cols-3 md:gap-5">
         {education.map((e, i) => (
-          <li key={e.school} className="flex">
-            <Reveal delay={i * 0.06} className="flex w-full">
-              <Card className="w-full transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
-                <span className="grid size-11 place-items-center rounded-xl bg-accent text-accent-foreground">
-                  <GraduationCap className="size-5" aria-hidden />
-                </span>
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">{e.period}</p>
-                  <h3 className="mt-1.5 text-lg font-semibold leading-snug">{e.credential}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {e.school}
-                    <br />
-                    {e.location}
-                  </p>
-                </div>
-              </Card>
+          <li key={e.school}>
+            <Reveal
+              delay={i * 0.1}
+              className="group glass relative flex h-full flex-col overflow-hidden rounded-[1.75rem] p-7"
+            >
+              <div
+                aria-hidden="true"
+                className="absolute -right-16 -top-16 size-48 rounded-full bg-violet/25 blur-3xl transition-colors duration-700 group-hover:bg-cyan/25"
+              />
+              <div className="flex items-center justify-between">
+                <GraduationCap className="size-6 text-cyan" aria-hidden="true" />
+                <span className="font-mono text-xs uppercase tracking-[0.2em] text-dim">{e.period}</span>
+              </div>
+              <h3 className="mt-10 font-display text-2xl font-bold leading-tight tracking-tight">{e.credential}</h3>
+              <p className="mt-auto pt-6 text-muted">
+                {e.school}
+                <span className="block font-mono text-xs uppercase tracking-[0.2em] text-dim">{e.location}</span>
+              </p>
             </Reveal>
           </li>
         ))}
-      </ul>
+      </ol>
     </Section>
   );
 }

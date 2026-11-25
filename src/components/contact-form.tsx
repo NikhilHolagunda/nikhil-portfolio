@@ -1,16 +1,18 @@
 "use client";
 
 import * as React from "react";
-import { CheckCircle2, Loader2, Send } from "lucide-react";
+import { CircleCheck, LoaderCircle, Send } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { profile } from "@/lib/data";
-import { Button } from "@/components/ui/button";
+import { Magnetic } from "@/components/fx/magnetic";
 
 const TYPES = ["Full-time role", "Contract", "Just saying hi"] as const;
 
 const fieldCls =
-  "w-full rounded-xl border border-input bg-background px-4 py-3 text-base text-foreground shadow-xs transition-colors placeholder:text-muted-foreground/80 focus-visible:border-primary focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/40 sm:text-sm";
+  "peer w-full rounded-2xl border border-line bg-bg/50 px-4 pb-3 pt-6 text-base text-fg outline-none transition-colors placeholder:text-transparent focus:border-cyan/70 focus:bg-bg/70 focus-visible:outline-none sm:text-sm";
+const labelCls =
+  "pointer-events-none absolute left-4 top-4 origin-left font-mono text-xs uppercase tracking-[0.15em] text-dim transition-all peer-focus:top-2 peer-focus:scale-90 peer-focus:text-cyan peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:scale-90";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -44,41 +46,41 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="mt-6 space-y-5" noValidate={false}>
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div className="space-y-2">
-          <label htmlFor="cf-name" className="text-sm font-medium">
+    <form onSubmit={onSubmit} className="space-y-4">
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="relative">
+          <input id="cf-name" name="name" required autoComplete="name" placeholder="Name" className={fieldCls} />
+          <label htmlFor="cf-name" className={labelCls}>
             Name
           </label>
-          <input id="cf-name" name="name" required autoComplete="name" className={fieldCls} placeholder="Jane Doe" />
         </div>
-        <div className="space-y-2">
-          <label htmlFor="cf-email" className="text-sm font-medium">
-            Email
-          </label>
+        <div className="relative">
           <input
             id="cf-email"
             name="email"
             type="email"
             required
             autoComplete="email"
+            placeholder="Email"
             className={fieldCls}
-            placeholder="jane@company.com"
           />
+          <label htmlFor="cf-email" className={labelCls}>
+            Email
+          </label>
         </div>
       </div>
 
-      <fieldset className="space-y-2">
-        <legend className="mb-2 text-sm font-medium">Reason</legend>
+      <fieldset>
+        <legend className="mb-3 font-mono text-xs uppercase tracking-[0.15em] text-dim">Reason</legend>
         <div className="flex flex-wrap gap-2">
           {TYPES.map((t) => (
             <label
               key={t}
               className={cn(
-                "cursor-pointer rounded-full border px-4 py-2 text-sm font-medium transition-all select-none active:scale-[0.97] has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-ring/60",
+                "cursor-pointer select-none rounded-full border px-4 py-2.5 font-mono text-xs uppercase tracking-wider transition-all has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-cyan",
                 type === t
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                  ? "border-cyan bg-cyan text-bg shadow-[0_0_24px_-6px_var(--cyan)]"
+                  : "border-line text-muted hover:border-cyan/50 hover:text-fg"
               )}
             >
               <input
@@ -95,48 +97,52 @@ export function ContactForm() {
         </div>
       </fieldset>
 
-      <div className="space-y-2">
-        <label htmlFor="cf-message" className="text-sm font-medium">
-          Message
-        </label>
+      <div className="relative">
         <textarea
           id="cf-message"
           name="message"
           required
           rows={5}
-          className={cn(fieldCls, "resize-y")}
-          placeholder="Tell me a bit about the role or project…"
+          placeholder="Message"
+          className={cn(fieldCls, "resize-y pt-7")}
         />
+        <label htmlFor="cf-message" className={labelCls}>
+          Message
+        </label>
       </div>
 
-      <Button type="submit" size="lg" className="w-full" disabled={status === "sending"}>
-        {status === "sending" ? (
-          <>
-            <Loader2 className="animate-spin" aria-hidden /> Sending…
-          </>
-        ) : (
-          <>
-            <Send aria-hidden /> Send message
-          </>
-        )}
-      </Button>
-
-      <p role="status" aria-live="polite" className="min-h-5 text-sm">
-        {status === "sent" && (
-          <span className="inline-flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
-            <CheckCircle2 className="size-4" aria-hidden /> Thanks! Your message was sent.
-          </span>
-        )}
-        {status === "error" && (
-          <span className="text-destructive">
-            Something went wrong. Please email me directly at{" "}
-            <a className="underline underline-offset-4" href={`mailto:${profile.email}`}>
-              {profile.email}
-            </a>
-            .
-          </span>
-        )}
-      </p>
+      <div className="flex flex-wrap items-center gap-4 pt-2">
+        <Magnetic>
+          <button
+            type="submit"
+            disabled={status === "sending"}
+            className="inline-flex h-14 items-center gap-3 rounded-full bg-cyan px-8 font-mono text-sm font-semibold uppercase tracking-wider text-bg shadow-[0_0_40px_-8px_var(--cyan)] transition-shadow hover:shadow-[0_0_60px_-4px_var(--cyan)] disabled:opacity-60"
+          >
+            {status === "sending" ? (
+              <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
+            ) : (
+              <Send className="size-4" aria-hidden="true" />
+            )}
+            {status === "sending" ? "Sending…" : "Send message"}
+          </button>
+        </Magnetic>
+        <p role="status" aria-live="polite" className="text-sm">
+          {status === "sent" && (
+            <span className="inline-flex items-center gap-2 text-cyan">
+              <CircleCheck className="size-4" aria-hidden="true" /> Thanks — I&apos;ll get back to you soon.
+            </span>
+          )}
+          {status === "error" && (
+            <span className="text-magenta">
+              Something went wrong. Email me directly at{" "}
+              <a href={`mailto:${profile.email}`} className="underline underline-offset-4">
+                {profile.email}
+              </a>
+              .
+            </span>
+          )}
+        </p>
+      </div>
     </form>
   );
 }

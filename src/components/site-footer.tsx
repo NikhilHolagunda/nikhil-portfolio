@@ -1,22 +1,24 @@
-import { ArrowUp } from "lucide-react";
-
 import { profile } from "@/lib/data";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 
 export function SiteFooter() {
   return (
-    <footer className="mx-auto max-w-6xl px-5 pb-10 sm:px-8">
-      <Separator />
-      <div className="flex flex-col items-center justify-between gap-4 pt-8 text-sm text-muted-foreground sm:flex-row">
-        <p>
-          © {new Date().getFullYear()} {profile.name}
+    <footer className="relative overflow-hidden border-t border-line">
+      <div className="mx-auto max-w-7xl px-5 pb-10 pt-16 sm:px-8">
+        <p
+          aria-hidden="true"
+          className="text-outline select-none font-display text-[clamp(3rem,16vw,15rem)] font-bold uppercase leading-[0.8] tracking-[-0.06em] opacity-40"
+        >
+          Holagunda
         </p>
-        <Button asChild variant="ghost" size="sm">
-          <a href="#top">
-            Back to top <ArrowUp aria-hidden />
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 font-mono text-xs uppercase tracking-[0.2em] text-dim">
+          <p>
+            © {new Date().getFullYear()} {profile.name}
+          </p>
+          <p>Built with Next.js · three.js · Framer Motion</p>
+          <a href="#top" className="text-muted transition-colors hover:text-cyan">
+            Back to top ↑
           </a>
-        </Button>
+        </div>
       </div>
     </footer>
   );

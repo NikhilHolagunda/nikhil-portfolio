@@ -1,70 +1,98 @@
-import { Briefcase, Mail, MapPin, Phone } from "lucide-react";
+"use client";
 
-import { experience, profile } from "@/lib/data";
+import { useRef } from "react";
+import Image from "next/image";
+import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
+
+import { profile, experience, education } from "@/lib/data";
 import { Section } from "@/components/section";
-import { Reveal } from "@/components/reveal";
-import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { Reveal } from "@/components/fx/reveal";
+
+function Word({ children, progress, range }: { children: string; progress: MotionValue<number>; range: [number, number] }) {
+  const opacity = useTransform(progress, range, [0.4, 1]);
+  return (
+    <motion.span style={{ opacity }} className="inline-block">
+      {children}&nbsp;
+    </motion.span>
+  );
+}
+
+/** Statement that lights up word by word as you scroll through it. */
+function ScrollStatement({ text }: { text: string }) {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 85%", "end 45%"] });
+  const words = text.split(" ");
+
+  if (reduce) {
+    return <p className="font-display text-[clamp(1.6rem,3.6vw,3rem)] font-medium leading-[1.15] tracking-[-0.02em]">{text}</p>;
+  }
+
+  return (
+    <p
+      ref={ref}
+      className="font-display text-[clamp(1.6rem,3.6vw,3rem)] font-medium leading-[1.15] tracking-[-0.02em]"
+    >
+      <span className="sr-only">{text}</span>
+      <span aria-hidden="true">
+        {words.map((w, i) => (
+          <Word key={i} progress={scrollYProgress} range={[i / words.length, (i + 1) / words.length]}>
+            {w}
+          </Word>
+        ))}
+      </span>
+    </p>
+  );
+}
 
 export function About() {
   const current = experience.find((e) => e.current);
   const facts = [
-    current && {
-      Icon: Briefcase,
-      label: "Currently",
-      value: `${current.role} at ${current.company}${current.client ? ` (Client: ${current.client})` : ""}`,
-    },
-    { Icon: MapPin, label: "Based in", value: profile.location },
-    { Icon: Mail, label: "Email", value: profile.email, href: `mailto:${profile.email}` },
-    { Icon: Phone, label: "Phone", value: profile.phone, href: profile.phoneHref },
-  ].filter(Boolean) as {
-    Icon: typeof Mail;
-    label: string;
-    value: string;
-    href?: string;
-  }[];
+    { k: "Based in", v: profile.location },
+    { k: "Currently", v: current ? `${current.role} @ ${current.company}` : profile.role },
+    { k: "Focus", v: "Digital banking & enterprise platforms" },
+    { k: "Education", v: education[0].school },
+  ];
 
   return (
-    <Section id="about" eyebrow="About" title="Building reliable platforms, end to end.">
-      <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:gap-12">
-        <Reveal className="space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
-          {profile.summary.map((p) => (
-            <p key={p}>{p}</p>
-          ))}
-        </Reveal>
+    <Section id="about" index="01" label="About" title={<>Engineer of <span className="text-neon">reliable</span> systems.</>}>
+      <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-20">
+        <div className="space-y-10">
+          <ScrollStatement text={profile.summary[0]} />
+          <Reveal className="grid gap-6 text-lg leading-relaxed text-muted md:grid-cols-2">
+            <p>{profile.summary[1]}</p>
+            <p>{profile.summary[2]}</p>
+          </Reveal>
+        </div>
 
-        <Reveal delay={0.1}>
-          <Card className="gap-0 p-2">
-            <dl>
-              {facts.map(({ Icon, label, value, href }, i) => (
-                <div key={label}>
-                  {i > 0 && <Separator className="mx-4 data-[orientation=horizontal]:w-auto" />}
-                  <div className="flex items-start gap-4 rounded-xl p-4">
-                    <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-accent text-accent-foreground">
-                      <Icon className="size-5" aria-hidden />
-                    </span>
-                    <div className="min-w-0">
-                      <dt className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                        {label}
-                      </dt>
-                      <dd className="mt-0.5 break-words font-medium">
-                        {href ? (
-                          <a
-                            href={href}
-                            className="rounded underline-offset-4 hover:text-brand hover:underline focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/60"
-                          >
-                            {value}
-                          </a>
-                        ) : (
-                          value
-                        )}
-                      </dd>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </dl>
-          </Card>
+        <Reveal delay={0.1} className="space-y-6">
+          <div className="group relative mx-auto aspect-[4/5] w-full max-w-xs overflow-hidden rounded-[2rem] border border-line lg:max-w-none">
+            <Image
+              src={profile.headshot}
+              alt={`Portrait of ${profile.name}`}
+              fill
+              sizes="(min-width: 1024px) 22rem, 20rem"
+              className="object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
+            />
+            {/* Holographic tint */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-tr from-violet/50 via-transparent to-cyan/40 mix-blend-color transition-opacity duration-700 group-hover:opacity-0"
+            />
+            <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-bg/90 to-transparent" />
+            <p className="absolute bottom-4 left-4 font-mono text-[11px] uppercase tracking-[0.25em] text-fg/80">
+              {profile.initials} / {profile.location}
+            </p>
+          </div>
+
+          <dl className="glass divide-y divide-line rounded-3xl px-5">
+            {facts.map((f) => (
+              <div key={f.k} className="flex items-baseline justify-between gap-4 py-4">
+                <dt className="font-mono text-[11px] uppercase tracking-[0.2em] text-dim">{f.k}</dt>
+                <dd className="text-right text-sm text-fg">{f.v}</dd>
+              </div>
+            ))}
+          </dl>
         </Reveal>
       </div>
     </Section>
