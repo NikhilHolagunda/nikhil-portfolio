@@ -33,6 +33,7 @@ export function ContactForm() {
           name: String(data.get("name") ?? ""),
           email: String(data.get("email") ?? ""),
           message: String(data.get("message") ?? ""),
+          website: String(data.get("website") ?? ""),
           type,
           timestamp: new Date().toISOString(),
         }),
@@ -109,6 +110,12 @@ export function ContactForm() {
         <label htmlFor="cf-message" className={labelCls}>
           Message
         </label>
+      </div>
+
+      {/* Honeypot: invisible to people and screen readers; bots fill every field. */}
+      <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+        <label htmlFor="cf-website">Website</label>
+        <input id="cf-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
 
       <div className="flex flex-wrap items-center gap-4 pt-2">
