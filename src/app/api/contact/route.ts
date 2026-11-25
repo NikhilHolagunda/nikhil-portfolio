@@ -8,13 +8,40 @@ const REFRESH_TOKEN = process.env.GOOGLE_REFRESH_TOKEN;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const NOTIFY_EMAIL = "nikhilholagunda07@gmail.com";
 
+// n8n lead workflow: validates, filters spam/duplicates, and posts the lead
+// to the #sales_team Discord channel (with retries + a saved fallback).
+const N8N_LEAD_WEBHOOK_URL =
+  process.env.N8N_LEAD_WEBHOOK_URL ?? "https://nikhil-demo.app.n8n.cloud/webhook/lead";
+
 type ContactBody = {
   name?: string;
   email?: string;
   type?: string;
   message?: string;
   timestamp?: string;
+  website?: string; // honeypot: hidden from humans, filled by bots
 };
+
+async function sendToN8n(body: ContactBody): Promise<void> {
+  if (!N8N_LEAD_WEBHOOK_URL) return;
+  const res = await fetch(N8N_LEAD_WEBHOOK_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name: body.name ?? "",
+      email: body.email ?? "",
+      company: body.type ?? "",
+      message: body.message ?? "",
+      website: body.website ?? "",
+      source: "portfolio",
+    }),
+    signal: AbortSignal.timeout(8000),
+  });
+  // 422 = rejected by the workflow's validation (spam/duplicate) — expected, not an error.
+  if (!res.ok && res.status !== 422) {
+    throw new Error(`n8n webhook failed: ${res.status}`);
+  }
+}
 
 async function sendEmail(body: ContactBody): Promise<void> {
   if (!RESEND_API_KEY) throw new Error("RESEND_API_KEY not configured");
@@ -110,15 +137,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
+    // Honeypot filled → a bot. Still hand it to n8n (which logs the rejection),
+    // but skip the email and pretend success so the bot learns nothing.
+    if (body.website) {
+      await sendToN8n(body).catch(() => {});
+      return NextResponse.json({ result: "success" });
+    }
+
     // Email is the critical path — must succeed.
     await sendEmail(body);
 
-    // Sheet log is best-effort — don't fail the request if it errors.
-    try {
-      await writeToSheet(body);
-    } catch (err) {
-      console.error("Sheet log failed (non-fatal):", err);
-    }
+    // Sheet log and n8n → Discord are best-effort — don't fail the request if they error.
+    const [sheet, n8n] = await Promise.allSettled([writeToSheet(body), sendToN8n(body)]);
+    if (sheet.status === "rejected") console.error("Sheet log failed (non-fatal):", sheet.reason);
+    if (n8n.status === "rejected") console.error("n8n lead webhook failed (non-fatal):", n8n.reason);
 
     return NextResponse.json({ result: "success" });
   } catch (err: unknown) {
