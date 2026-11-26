@@ -15,9 +15,9 @@ export const profile = {
   resume: "/Nikhil-Holagunda-Resume.pdf",
   headshot: "/headshot.png",
   tagline:
-    "Full-Stack Software Engineer with 4+ years of experience building high-availability digital banking and enterprise platforms across Canada and India.",
+    "Full-Stack Software Engineer with 5 years of experience building high-availability digital banking and enterprise platforms across Canada and India.",
   summary: [
-    "Full-Stack Software Engineer with 4+ years of experience building high-availability digital banking and enterprise platforms across Canada and India.",
+    "Full-Stack Software Engineer with 5 years of experience building high-availability digital banking and enterprise platforms across Canada and India.",
     "Strong in Java (Spring Boot), React/TypeScript, Node.js, and event-driven microservices on Kafka, backed by cloud experience on Azure and AWS, CI/CD, and Splunk observability.",
     "Integrates AI-assisted automation and predictive analytics to improve reliability and sustain 99.9% platform uptime.",
   ],

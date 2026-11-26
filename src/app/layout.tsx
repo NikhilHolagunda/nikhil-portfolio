@@ -24,7 +24,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 const description =
-  "Nikhil Holagunda — Full-Stack Software Engineer with 4+ years building high-availability digital banking and enterprise platforms with Java (Spring Boot), React/TypeScript, Node.js, and Kafka.";
+  "Nikhil Holagunda — Full-Stack Software Engineer with 5 years building high-availability digital banking and enterprise platforms with Java (Spring Boot), React/TypeScript, Node.js, and Kafka.";
 
 export const metadata: Metadata = {
   title: "Nikhil Holagunda | Full Stack Developer",
